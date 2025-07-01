@@ -1,6 +1,6 @@
 import sys
 
-from PythonSurvey.Utilities import TimeSeriesSegments as tss
+from PythonSurvey.Utilities import TimeSeries as tss
 
 def formatCheck(lines):
     if not lines:
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     checkedTimeSeries = tss(timeSeries)
 
     for i in range(0,5):
-        
+        pass
