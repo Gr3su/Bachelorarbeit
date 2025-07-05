@@ -1,6 +1,6 @@
 import sys
 
-from PythonSurvey.Utilities import TimeSeries as tss
+from PythonSurvey.Utilities import MultivariateTimeSeries as tss
 
 def formatCheck(lines):
     if not lines:
