@@ -1,7 +1,7 @@
 from Utilities import MultivariateTimeSeries as tss
-from Utilities import CompressedTimeSeries as ctss
 from numpy.polynomial.polynomial import Polynomial as Pol
 from numpy.fft import fft
+from numpy import abs
 import pywt
 
 def checkParameters(multivariateTimeSeries : tss, intParameter : int):
@@ -55,6 +55,10 @@ def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
 def dftApproximation(multivariateTimeSeries : tss, threshold : int):
     checkParameters(multivariateTimeSeries, threshold)
 
+    compressedMultivariateTimeSeries = []
     for i in multivariateTimeSeries.multivariateTimeSeries:
         freq = len(i)
         sp = fft(i)
+        sp[abs(sp) < threshold] = 0
+        compressedMultivariateTimeSeries.append(sp)
+    return compressedMultivariateTimeSeries

@@ -20,20 +20,3 @@ class MultivariateTimeSeries:
         self.timeSeries_length = len(timeSeries[0])
         for i in range(1,len(timeSeries)):
             self.addTimeSeries(timeSeries[i])
-
-class CompressedTimeSeries:
-    class segmentContainer:
-        def __init__(self, segment, originalLength):
-            if not isinstance(segment, list):
-                raise TypeError(f"Erwarte eine List, aber ein {type(segment)} erhalten.")
-            if not isinstance(originalLength, int):
-                raise TypeError(f"Erwarte ein int, aber ein {type(originalLength)} erhalten.")
-            
-            self.segment = segment
-            self.originalLength = originalLength
-
-    def __init__(self, segment, originalLength):
-        self.segments = [CompressedTimeSeries.segmentContainer(segment, originalLength)]
-    
-    def addSegment(self, segment, originalLength):
-        self.segments.append(CompressedTimeSeries.segmentContainer(segment, originalLength))
