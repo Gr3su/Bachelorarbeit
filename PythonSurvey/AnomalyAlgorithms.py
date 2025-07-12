@@ -9,7 +9,7 @@ def knnDetection(multivariateTimeSeries : tss):
     clf.fit(multivariateTimeSeries.multivariateTimeSeries)
     return clf.labels_
 
-def lofDetectiob(multivariateTimeSeries : tss):
+def lofDetection(multivariateTimeSeries : tss):
     clf = LOF()
     clf.fit(multivariateTimeSeries.multivariateTimeSeries)
     return clf.labels_
