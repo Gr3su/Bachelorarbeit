@@ -55,7 +55,7 @@ def euWeatherData(contents: list[str], full_paths: list[str]):
         if len(temps) < 1000:
             continue
         
-        temps[-1000:]
+        temps = temps[-1000:]
         valid_contents.append(", ".join(temps))
         valid_paths.append(path)
 
