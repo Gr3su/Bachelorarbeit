@@ -1,8 +1,10 @@
 from pyod.models.knn import KNN
 from pyod.models.lof import LOF
 from pyod.models.iforest import IForest
+from pyod.models.mad import MAD
 from Utilities import MultivariateTimeSeries as tss
 from time import perf_counter
+import numpy as np
 
 def knnDetection(multivariateTimeSeries : tss):
     clf = KNN()
@@ -19,7 +21,24 @@ def isolationForestDetection(multivariateTimeSeries : tss):
     clf.fit(multivariateTimeSeries.multivariateTimeSeries)
     return clf.labels_
 
-def calcRuntime(func, *args):
+def randomProjectionsDetection(multivariateTimeSeries : tss):
+    scores = np.zeros(multivariateTimeSeries.timeSeriesLength)
+
+    for i in range(100):
+        randomVector = np.random.randn(multivariateTimeSeries.multivariateTimeSeries[0])
+        coeffs = []
+        for series in multivariateTimeSeries.multivariateTimeSeries:
+            coeffs.append[[np.dot(series, randomVector)]]
+        clf = MAD()
+        clf.fit(coeffs)
+        scores += clf.labels_
+    clf = MAD()
+    clf.fit([[x] for x in scores])
+    return clf.labels_
+
+
+
+def execCalcRuntime(func, *args):
     start = perf_counter()
     result = func(*args)
     end = perf_counter()
