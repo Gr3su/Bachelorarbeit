@@ -22,13 +22,13 @@ def isolationForestDetection(multivariateTimeSeries : tss):
     return clf.labels_
 
 def randomProjectionsDetection(multivariateTimeSeries : tss):
-    scores = np.zeros(multivariateTimeSeries.timeSeriesLength)
+    scores = np.zeros(len(multivariateTimeSeries.multivariateTimeSeries))
 
     for i in range(100):
-        randomVector = np.random.randn(multivariateTimeSeries.multivariateTimeSeries[0])
+        randomVector = np.random.randn(multivariateTimeSeries.timeSeriesLength)
         coeffs = []
         for series in multivariateTimeSeries.multivariateTimeSeries:
-            coeffs.append[[np.dot(series, randomVector)]]
+            coeffs.append([np.dot(series, randomVector)])
         clf = MAD()
         clf.fit(coeffs)
         scores += clf.labels_

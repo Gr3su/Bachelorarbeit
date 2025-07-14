@@ -1,7 +1,7 @@
 from Utilities import MultivariateTimeSeries as tss
 from numpy.polynomial.polynomial import Polynomial as Pol
 from numpy.fft import fft
-from numpy import abs, percentile
+import numpy as np
 import pywt
 
 def checkParameters(multivariateTimeSeries : tss, intParameter : int):
@@ -15,15 +15,15 @@ def linearApproximation(multivariateTimeSeries : tss, segmentLength : int):
     
     compressedMultivariateTimeSeries = []
     for i in multivariateTimeSeries.multivariateTimeSeries:
-        y_fits = []
+        y_fits = np.array([])
         for j in range(0, multivariateTimeSeries.timeSeriesLength, segmentLength):
             # hier in der arbeit erwähnen dass die x werte keine Rolle spielen, außer dass sie den gleichen abstand haben, weil bei der datenauswahl gleichmäßige intervalle gewählt werden
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
             # und hier erwähnen dass die Verfälschung vom letzten Segment keine Rolle spielt, weil es bei jeder Zeitreihe verfälscht wird
             p = Pol.fit(range(j, rightBoundary), i[j:rightBoundary], deg=1)
-            y_fits.append(p(range(0, segmentLength, segmentLength - 1)))
+            y_fits = np.append(y_fits, p(range(0, segmentLength, segmentLength - 1)))
 
-        compressedMultivariateTimeSeries.append(y_fits)
+        compressedMultivariateTimeSeries.append(y_fits.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
 def polynomialApproximation(multivariateTimeSeries : tss, segmentLength : int):
@@ -31,13 +31,13 @@ def polynomialApproximation(multivariateTimeSeries : tss, segmentLength : int):
 
     compressedMultivariateTimeSeries = []
     for i in multivariateTimeSeries.multivariateTimeSeries:
-        coefficients = []
+        coefficients = np.array([])
         for j in range(0, multivariateTimeSeries.timeSeriesLength, segmentLength):
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
             p = Pol.fit(range(j, rightBoundary), i[j:rightBoundary], deg=3)
-            coefficients.append(p.convert().coef)
+            coefficients = np.append(coefficients, p.convert().coef)
         
-        compressedMultivariateTimeSeries.append(coefficients)
+        compressedMultivariateTimeSeries.append(coefficients.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
 def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
@@ -49,7 +49,7 @@ def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
         for j in range(0, iterations):
             coefApprox, coefDiff = pywt.dwt(data, 'db1')
             data = coefApprox
-        compressedMultivariateTimeSeries.append(data)
+        compressedMultivariateTimeSeries.append(data.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
 def dftApproximation(multivariateTimeSeries : tss, keepPercentile : int):
@@ -59,7 +59,7 @@ def dftApproximation(multivariateTimeSeries : tss, keepPercentile : int):
     for i in multivariateTimeSeries.multivariateTimeSeries:
         sp = fft(i)
         sp = sp[:len(sp) // 2]
-        threshold = percentile(abs(sp), 100 - keepPercentile)
-        sp[abs(sp) < threshold] = 0
-        compressedMultivariateTimeSeries.append(sp)
+        threshold = np.percentile(np.abs(sp), 100 - keepPercentile)
+        sp[np.abs(sp) < threshold] = 0
+        compressedMultivariateTimeSeries.append(sp.astype(complex).tolist())
     return compressedMultivariateTimeSeries

@@ -2,7 +2,7 @@ import numpy as np
 
 class MultivariateTimeSeries:
     def addTimeSeries(self, timeSeries):
-        if not isinstance(timeSeries, list):
+        if not isinstance(timeSeries, list) and not isinstance(timeSeries, np.ndarray):
             raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries)} erhalten.")
         
         if len(timeSeries) != self.timeSeriesLength:
@@ -13,7 +13,7 @@ class MultivariateTimeSeries:
     def __init__(self, timeSeries):
         if not isinstance(timeSeries, list):
             raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries)} erhalten.")
-        if not isinstance(timeSeries[0], list):
+        if not isinstance(timeSeries[0], list) and not isinstance(timeSeries[0], np.ndarray):
             raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries[0])} erhalten.")
         
         self.multivariateTimeSeries = [timeSeries[0]]
