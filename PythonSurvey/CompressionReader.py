@@ -31,9 +31,11 @@ def writeFiles(paths : list[str], pathExtension, contents):
             f.write(str(content)[1:-1])
 
 if __name__ == "__main__":
+    # Holen aller echten Dateien
     full_paths = [os.path.join(sys.argv[1], filename) for filename in os.listdir(sys.argv[1])]
     full_paths = [path for path in full_paths if os.path.isfile(path)]
 
+    # Einlesen jeder Datei und zum validieren in MultivariateTimeSeries Objekt stecken 
     timeSeries = []
     for path in full_paths:
         with open(path, "r") as f:
@@ -44,6 +46,7 @@ if __name__ == "__main__":
 
     checkedTimeSeries = tss(timeSeries)
 
+    # Komprimieren und speichern der Kompressionen
     linTS = comp.linearApproximation(checkedTimeSeries, int(sys.argv[2]))
     writeFiles(full_paths, "linearApprox", linTS)
     polTS = comp.polynomialApproximation(checkedTimeSeries, int(sys.argv[3]))
@@ -55,18 +58,38 @@ if __name__ == "__main__":
     dftTS = list(np.abs(dftTS))
     results = ""
 
-    for data, name in zip((checkedTimeSeries, tss(linTS), tss(polTS), tss(dwtTS), tss(dftTS)),
-                    ("Original", "Linear Approx.", "Polynomial Approx.", "Discrete Wavelet Trans.", "Discrete Fourier Trans.")):
+    # Anomalieerkennung und Erstellung / Speicherung von Ergebnisdatei
+    originalOutliers = {}
+    for i, (data, name) in enumerate(zip((checkedTimeSeries, tss(linTS), tss(polTS), tss(dwtTS), tss(dftTS)),
+                    ("Original", "Linear Approx.", "Polynomial Approx.", "Discrete Wavelet Trans.", "Discrete Fourier Trans."))):
         results += f"{name} Data - Results\n"
+
+        # knn
         labels, time = anom.execCalcRuntime(anom.knnDetection, data)
-        indexes = np.where(labels == 1)[0]
-        results += f"knn Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n"
+        results += f"knn Detection - Took {time}s to complete.\n"
+        if i == 0:
+            originalOutliers['knn'] = labels
+        else:
+            countDiffs = np.sum(originalOutliers['knn'] != labels)
+            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['knn'])}\n"
+
+        # iForest
         labels, time = anom.execCalcRuntime(anom.isolationForestDetection, data)
-        indexes = np.where(labels == 1)[0]
-        results += f"iForest Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n"
+        results += f"iForest Detection - Took {time}s to complete.\n"
+        if i == 0:
+            originalOutliers['iForest'] = labels
+        else:
+            countDiffs = np.sum(originalOutliers['iForest'] != labels)
+            results += f"Accuracy: {1- countDiffs / len(originalOutliers['iForest'])}\n"
+
+        # Random Projection
         labels, time = anom.execCalcRuntime(anom.randomProjectionsDetection, data)
-        indexes = np.where(labels == 1)[0]
-        results += f"Random Projection Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n\n\n"
+        results += f"Random Projection Detection - Took {time}s to complete.\n"
+        if i == 0:
+            originalOutliers['randomP'] = labels
+        else:
+            countDiffs = np.sum(originalOutliers['randomP'] != labels)
+            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['randomP'])}\n\n\n"
     
     results = results.strip()
 
