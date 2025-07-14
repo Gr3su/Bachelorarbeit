@@ -52,6 +52,24 @@ if __name__ == "__main__":
     writeFiles(full_paths, "waveletApprox", dwtTS)
     dftTS = comp.dftApproximation(checkedTimeSeries, int(sys.argv[5]) if len(sys.argv) == 6 else 10)
     writeFiles(full_paths, "fourierApprox", dftTS)
+    dftTS = list(np.abs(dftTS))
+    results = ""
 
-    #for i in (linTS, polTS, dwtTS, dftTS):
-        
+    for data, name in zip((checkedTimeSeries, tss(linTS), tss(polTS), tss(dwtTS), tss(dftTS)),
+                    ("Original", "Linear Approx.", "Polynomial Approx.", "Discrete Wavelet Trans.", "Discrete Fourier Trans.")):
+        results += f"{name} Data - Results\n"
+        labels, time = anom.execCalcRuntime(anom.knnDetection, data)
+        indexes = np.where(labels == 1)[0]
+        results += f"knn Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n"
+        labels, time = anom.execCalcRuntime(anom.isolationForestDetection, data)
+        indexes = np.where(labels == 1)[0]
+        results += f"iForest Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n"
+        labels, time = anom.execCalcRuntime(anom.randomProjectionsDetection, data)
+        indexes = np.where(labels == 1)[0]
+        results += f"Random Projection Detection - Took {time}s to complete.\n\tIndixes:{indexes}\n\n\n"
+    
+    results = results.strip()
+
+    resultsPath = sys.argv[1] + "../anomalyResults.txt"
+    with open(resultsPath, 'w', encoding='utf-8') as f:
+        f.write(results)
