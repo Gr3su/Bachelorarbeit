@@ -17,14 +17,24 @@ def writeFiles(paths : list[str], contents):
         with open(newPath, 'w', encoding='utf-8') as f:
             f.write(str(content))
 
-def nvidiaData(contents: list[str]):
-    for i, data in enumerate(contents):
-        lines = data.strip().splitlines()[1:]
-        results = [
-            float(line.split(",")[1]) - float(line.split(",")[4])
-            for line in lines
-        ]
-        contents[i] = str(results)[1:-1]
+def nvidiaData(contents: list[str], full_paths : list[str]):
+    data = contents[0]
+    lines = data.strip().splitlines()[1:]
+    results = [
+        float(line.split(",")[1]) - float(line.split(",")[4])
+        for line in lines
+    ]
+    contents[:] = [str(results[max(i-50, 0):i])[1:-1] for i in range(len(results), 0, -50)]
+
+    if contents[-1].count(",") < 49:
+        contents.pop()
+    contents.reverse()
+
+    dirName = os.path.dirname(full_paths[0])
+    full_paths.clear()
+    for i in range(1,len(contents) + 1):
+        full_paths.append(os.path.join(dirName, str(i * 50)))
+
 
 def euWeatherData(contents: list[str], full_paths: list[str]):
     valid_contents = []
@@ -70,7 +80,7 @@ if __name__ == "__main__":
     match int(sys.argv[2]):
         case 0:
             contents = readFiles(full_paths)
-            nvidiaData(contents)
+            nvidiaData(contents, full_paths)
             writeFiles(full_paths, contents)
         case 1:
             contents = readFiles(full_paths)
