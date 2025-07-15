@@ -4,7 +4,6 @@ from Utilities import MultivariateTimeSeries as tss
 import CompressionAlgorithms as comp
 import AnomalyAlgorithms as anom
 import numpy as np
-import re
 
 def formatCheck(lines):
     if not lines:
@@ -15,11 +14,13 @@ def formatCheck(lines):
         if not isFloatArray(i):
             raise ValueError(f"Eine Zeile enthaelt keine Zahl, sondern folgendes: {i}")
 
-def isFloatArray(value):
-    pattern = r'^(-?\d+(?:\.\d+)?)(,\s*-?\d+(?:\.\d+)?)*$'
-    if re.fullmatch(pattern, value):
+def isFloatArray(value : str):
+    try:
+        [float(i) for i in value.split(", ")]
         return True
-    return False
+    except:
+        return False
+    
     
 def writeFiles(paths : list[str], pathExtension, contents):
     for path, content in zip(paths, contents):
@@ -67,29 +68,35 @@ if __name__ == "__main__":
         # knn
         labels, time = anom.execCalcRuntime(anom.knnDetection, data)
         results += f"knn Detection - Took {time}s to complete.\n"
+        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
             originalOutliers['knn'] = labels
+            results += files + "\n"
         else:
             countDiffs = np.sum(originalOutliers['knn'] != labels)
-            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['knn'])}\n"
+            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['knn'])}\n{files}\n"
 
         # iForest
         labels, time = anom.execCalcRuntime(anom.isolationForestDetection, data)
         results += f"iForest Detection - Took {time}s to complete.\n"
+        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
             originalOutliers['iForest'] = labels
+            results += files + "\n"
         else:
             countDiffs = np.sum(originalOutliers['iForest'] != labels)
-            results += f"Accuracy: {1- countDiffs / len(originalOutliers['iForest'])}\n"
+            results += f"Accuracy: {1- countDiffs / len(originalOutliers['iForest'])}\n{files}\n"
 
         # Random Projection
         labels, time = anom.execCalcRuntime(anom.randomProjectionsDetection, data)
         results += f"Random Projection Detection - Took {time}s to complete.\n"
+        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
             originalOutliers['randomP'] = labels
+            results += files + "\n\n\n"
         else:
             countDiffs = np.sum(originalOutliers['randomP'] != labels)
-            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['randomP'])}\n\n\n"
+            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['randomP'])}\n{files}\n\n\n"
     
     results = results.strip()
 
