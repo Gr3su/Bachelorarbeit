@@ -72,6 +72,19 @@ def euWeatherData(contents: list[str], full_paths: list[str]):
     contents[:] = valid_contents
     full_paths[:] = valid_paths
 
+def ecg500(contents: list[str], full_paths: list[str]):
+    data = [float(x) for x in contents[0].split()]
+    data = [str(data[i:i+140 if i <= len(data) else len(data)])[1:-1] for i in range(0, len(data), 140)]
+    if len(data[-1]) != 140:
+        data.pop()
+
+    contents[:] = data
+    
+    dirName = os.path.dirname(full_paths[0])
+    full_paths.clear()
+    for i in range(1,len(contents) + 1):
+        full_paths.append(os.path.join(dirName, str(i * 140)))
+    
 
 if __name__ == "__main__":
     full_paths = [os.path.join(sys.argv[1], filename) for filename in os.listdir(sys.argv[1])]
@@ -87,6 +100,8 @@ if __name__ == "__main__":
             euWeatherData(contents, full_paths)
             writeFiles(full_paths, contents)
         case 2:
-            pass
+            contents = readFiles(full_paths)
+            ecg500(contents, full_paths)
+            writeFiles(full_paths, contents)
         case 3:
             pass
