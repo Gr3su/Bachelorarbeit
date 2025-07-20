@@ -20,7 +20,7 @@ def linearApproximation(multivariateTimeSeries : tss, segmentLength : int):
             # hier in der arbeit erwähnen dass die x werte keine Rolle spielen, außer dass sie den gleichen abstand haben, weil bei der datenauswahl gleichmäßige intervalle gewählt werden
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
             # und hier erwähnen dass die Verfälschung vom letzten Segment keine Rolle spielt, weil es bei jeder Zeitreihe verfälscht wird
-            p = Pol.fit(range(j, rightBoundary), i[j:rightBoundary], deg=1)
+            p = Pol.fit(range(0, segmentLength), i[j:rightBoundary], deg=1)
             y_fits = np.append(y_fits, p(range(0, segmentLength, segmentLength - 1)))
 
         compressedMultivariateTimeSeries.append(y_fits.astype(float).tolist())
@@ -34,7 +34,7 @@ def polynomialApproximation(multivariateTimeSeries : tss, segmentLength : int):
         coefficients = np.array([])
         for j in range(0, multivariateTimeSeries.timeSeriesLength, segmentLength):
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
-            p = Pol.fit(range(j, rightBoundary), i[j:rightBoundary], deg=3)
+            p = Pol.fit(range(0, segmentLength), i[j:rightBoundary], deg=3)
             coefficients = np.append(coefficients, p.convert().coef)
         
         compressedMultivariateTimeSeries.append(coefficients.astype(float).tolist())
