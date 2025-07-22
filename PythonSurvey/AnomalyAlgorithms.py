@@ -31,7 +31,7 @@ def randomProjectionsDetection(multivariateTimeSeries : tss):
             coeffs.append([np.dot(series, randomVector)])
         clf = MAD()
         clf.fit(coeffs)
-        scores += clf.labels_
+        scores += clf.decision_scores_
     clf = MAD()
     clf.fit([[x] for x in scores])
     return clf.labels_

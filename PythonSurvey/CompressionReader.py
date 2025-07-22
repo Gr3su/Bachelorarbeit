@@ -31,6 +31,14 @@ def writeFiles(paths : list[str], pathExtension, contents):
         with open(newPath, 'w', encoding='utf-8') as f:
             f.write(str(content)[1:-1])
 
+def computeClassificationMetrics(original, toCompare):
+    tp = np.sum((original == 1) & (toCompare == 1))
+    tn = np.sum((original == 0) & (toCompare == 0))
+    fp = np.sum((original == 0) & (toCompare == 1))
+    fn = np.sum((original == 1) & (toCompare == 0))
+
+    return tp, tn, fp, fn
+
 if __name__ == "__main__":
     # Holen aller echten Dateien
     full_paths = [os.path.join(sys.argv[1], filename) for filename in os.listdir(sys.argv[1])]
@@ -66,37 +74,40 @@ if __name__ == "__main__":
         results += f"{name} Data - Results\n"
 
         # knn
+        detection = "knn"
         labels, time = anom.execCalcRuntime(anom.knnDetection, data)
         results += f"knn Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers['knn'] = labels
+            originalOutliers[detection] = labels
             results += files + "\n"
         else:
-            countDiffs = np.sum(originalOutliers['knn'] != labels)
-            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['knn'])}\n{files}\n"
+            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
 
         # iForest
+        detection = "iForest"
         labels, time = anom.execCalcRuntime(anom.isolationForestDetection, data)
         results += f"iForest Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers['iForest'] = labels
+            originalOutliers[detection] = labels
             results += files + "\n"
         else:
-            countDiffs = np.sum(originalOutliers['iForest'] != labels)
-            results += f"Accuracy: {1- countDiffs / len(originalOutliers['iForest'])}\n{files}\n"
+            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
 
         # Random Projection
+        detection = "randomP"
         labels, time = anom.execCalcRuntime(anom.randomProjectionsDetection, data)
         results += f"Random Projection Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers['randomP'] = labels
+            originalOutliers[detection] = labels
             results += files + "\n\n\n"
         else:
-            countDiffs = np.sum(originalOutliers['randomP'] != labels)
-            results += f"Accuracy: {1 - countDiffs / len(originalOutliers['randomP'])}\n{files}\n\n\n"
+            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n\n\n"
     
     results = results.strip()
 
