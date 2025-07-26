@@ -1,1 +1,8 @@
 \section{Kompression von Zeitreihen}
+Übersetzt aus dem Englischen, beschreibt D. Salomon den Begriff Daten Kompression in "`Data compression : The Complete Reference"'\cite[p. 1-2]{d2004} folgendermaßen:"`\textit{Daten Kompression ist der Prozess der Konvertierung eines Eingangsdatenstroms [\ldots], hin zu einem anderen Datenstrom [\ldots] der eine kleinere Größe hat. Ein Strom ist entweder eine Datei oder ein Puffer im Speicher.}'"
+
+Laut ihm gibt es zwei Hauptgründe warum man Daten komprimiert. Erstens ist der physische Speicher begrenzt, heißt man möchte das Volllaufen mittels Aussortieren und Kompression so weit herauszögern wie nur möglich, wobei das Aussortieren mühsam sein kann. Zweitens ist der Mensch ungeduldig, heißt man möchte viele Daten schnell übertragen können und nicht mehrere Sekunden warten bis die Daten z.B. angezeigt werden. In unserem Fall spielt der erste Grund wohl die wichtigere Rolle, da es darum geht, Zeitreihen effektiv speichern zu können und sie dann zu analysieren, statt sie zu verschieben oder zu versenden.
+
+Nachfolgend werden nun die vier verschiedene Kompressionsverfahren erläutert, die für das Experiment in \autoref{ch:experimentundergebnis} benötigt werden.
+
+\subsection{Stückweise polynomielle Approximation}
