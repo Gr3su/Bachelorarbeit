@@ -1,8 +1,10 @@
 import sys, os
 
-from Utilities import MultivariateTimeSeries as tss
+from Utilities import MultivariateTimeSeries as mts
+from Utilities import execCalcRuntime
 import CompressionAlgorithms as comp
 import AnomalyAlgorithms as anom
+import SimilarityAlgorithms as sim
 import numpy as np
 
 def formatCheck(lines):
@@ -53,7 +55,7 @@ if __name__ == "__main__":
 
             timeSeries.append([float(x) for x in lines[0].strip().split(",")])
 
-    checkedTimeSeries = tss(timeSeries)
+    checkedTimeSeries = mts(timeSeries)
 
     # Komprimieren und speichern der Kompressionen
     linTS = comp.linearApproximation(checkedTimeSeries, int(sys.argv[2]))
@@ -67,45 +69,64 @@ if __name__ == "__main__":
     results = ""
 
     # Anomalieerkennung und Erstellung / Speicherung von Ergebnisdatei
-    originalOutliers = {}
-    for i, (data, name) in enumerate(zip((checkedTimeSeries, tss(linTS), tss(polTS), tss(dwtTS), tss(dftTS)),
+    originalResults = {}
+    chosenVector = -1
+    for i, (data, name) in enumerate(zip((checkedTimeSeries, mts(linTS), mts(polTS), mts(dwtTS), mts(dftTS)),
                     ("Original", "Linear Approx.", "Polynomial Approx.", "Discrete Wavelet Trans.", "Discrete Fourier Trans."))):
         results += f"{name} Data - Results\n"
 
         # knn
         detection = "knn"
-        labels, time = anom.execCalcRuntime(anom.knnDetection, data)
+        labels, time = execCalcRuntime(anom.knnDetection, data)
         results += f"knn Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers[detection] = labels
+            originalResults[detection] = labels
             results += files + "\n"
         else:
-            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
             results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
 
         # iForest
         detection = "iForest"
-        labels, time = anom.execCalcRuntime(anom.isolationForestDetection, data)
+        labels, time = execCalcRuntime(anom.isolationForestDetection, data)
         results += f"iForest Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers[detection] = labels
+            originalResults[detection] = labels
             results += files + "\n"
         else:
-            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
             results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
 
         # Random Projection
         detection = "randomP"
-        labels, time = anom.execCalcRuntime(anom.randomProjectionsDetection, data)
+        labels, time = execCalcRuntime(anom.randomProjectionsDetection, data)
         results += f"Random Projection Detection - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
         if i == 0:
-            originalOutliers[detection] = labels
-            results += files + "\n\n\n"
+            originalResults[detection] = labels
+            results += files + "\n"
         else:
-            tp, tn, fp, fn = computeClassificationMetrics(originalOutliers[detection], labels)
+            tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
+        
+        # Similarity Search
+        detection = "similarity"
+        k = 10
+        if i == 0:
+            chosenVector = np.random.randint(0, len(data.multivariateTimeSeries))
+            labels, time = execCalcRuntime(sim.faissL2Search(data, chosenVector, k))
+            originalResults[detection] = labels
+        else:
+            labels, time = execCalcRuntime(sim.faissL2Search(data, chosenVector, k))
+            tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
+        results += f"Similarity Search with k={k} - Took {time}s to complete.\n"
+        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
+
+        if i == 0:
+            results += files + "\n"
+        else:
             results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n\n\n"
     
     results = results.strip()

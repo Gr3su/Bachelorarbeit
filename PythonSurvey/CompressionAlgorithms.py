@@ -1,16 +1,16 @@
-from Utilities import MultivariateTimeSeries as tss
+from Utilities import MultivariateTimeSeries as mts
 from numpy.polynomial.polynomial import Polynomial as Pol
 from numpy.fft import fft
 import numpy as np
 import pywt
 
-def checkParameters(multivariateTimeSeries : tss, intParameter : int):
-    if not isinstance(multivariateTimeSeries, tss):
+def checkParameters(multivariateTimeSeries : mts, intParameter : int):
+    if not isinstance(multivariateTimeSeries, mts):
         raise TypeError(f"Erwarte ein TimeSeriesSegments Objekt, aber ein {type(multivariateTimeSeries)} erhalten.")
     if not isinstance(intParameter, int):
         raise TypeError(f"Erwarte ein int, aber ein {type(intParameter)} erhalten.")
 
-def linearApproximation(multivariateTimeSeries : tss, segmentLength : int):
+def linearApproximation(multivariateTimeSeries : mts, segmentLength : int):
     checkParameters(multivariateTimeSeries, segmentLength)
     
     compressedMultivariateTimeSeries = []
@@ -26,7 +26,7 @@ def linearApproximation(multivariateTimeSeries : tss, segmentLength : int):
         compressedMultivariateTimeSeries.append(y_fits.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
-def polynomialApproximation(multivariateTimeSeries : tss, segmentLength : int):
+def polynomialApproximation(multivariateTimeSeries : mts, segmentLength : int):
     checkParameters(multivariateTimeSeries, segmentLength)
 
     compressedMultivariateTimeSeries = []
@@ -40,7 +40,7 @@ def polynomialApproximation(multivariateTimeSeries : tss, segmentLength : int):
         compressedMultivariateTimeSeries.append(coefficients.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
-def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
+def dwtApproximation(multivariateTimeSeries : mts, iterations : int):
     checkParameters(multivariateTimeSeries, iterations)
 
     compressedMultivariateTimeSeries = []
@@ -52,7 +52,7 @@ def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
         compressedMultivariateTimeSeries.append(data.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
-def dftApproximation(multivariateTimeSeries : tss, keepPercentile : float):
+def dftApproximation(multivariateTimeSeries : mts, keepPercentile : float):
     #checkParameters(multivariateTimeSeries, keepPercentile)
 
     compressedMultivariateTimeSeries = []

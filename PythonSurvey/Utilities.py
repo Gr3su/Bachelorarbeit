@@ -1,4 +1,5 @@
 import numpy as np
+from time import perf_counter
 
 class MultivariateTimeSeries:
     def addTimeSeries(self, timeSeries):
@@ -20,3 +21,9 @@ class MultivariateTimeSeries:
         self.timeSeriesLength = len(timeSeries[0])
         for i in range(1,len(timeSeries)):
             self.addTimeSeries(timeSeries[i])
+
+def execCalcRuntime(func, *args):
+    start = perf_counter()
+    result = func(*args)
+    end = perf_counter()
+    return result, end - start
