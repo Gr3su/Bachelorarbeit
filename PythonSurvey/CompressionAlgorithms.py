@@ -52,8 +52,8 @@ def dwtApproximation(multivariateTimeSeries : tss, iterations : int):
         compressedMultivariateTimeSeries.append(data.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
-def dftApproximation(multivariateTimeSeries : tss, keepPercentile : int):
-    checkParameters(multivariateTimeSeries, keepPercentile)
+def dftApproximation(multivariateTimeSeries : tss, keepPercentile : float):
+    #checkParameters(multivariateTimeSeries, keepPercentile)
 
     compressedMultivariateTimeSeries = []
     for i in multivariateTimeSeries.multivariateTimeSeries:
@@ -61,5 +61,16 @@ def dftApproximation(multivariateTimeSeries : tss, keepPercentile : int):
         sp = sp[:len(sp) // 2]
         threshold = np.percentile(np.abs(sp), 100 - keepPercentile)
         sp[np.abs(sp) < threshold] = 0
-        compressedMultivariateTimeSeries.append(sp.astype(complex).tolist())
+        sp = np.abs(sp)
+        
+        compressedMultivariateTimeSeries.append(sp.astype(float).tolist())
+
+    max_index = 0
+    for i in compressedMultivariateTimeSeries:
+        nonzeroIndex = np.nonzero(i)[0][-1].tolist()
+        max_index = max(max_index, nonzeroIndex)
+        
+    if max_index != 0:
+        compressedMultivariateTimeSeries = [arr[0:max_index+1] for arr in compressedMultivariateTimeSeries]
+
     return compressedMultivariateTimeSeries
