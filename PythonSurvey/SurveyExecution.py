@@ -113,13 +113,13 @@ if __name__ == "__main__":
         
         # Similarity Search
         detection = "similarity"
-        k = 10
+        k = 100
         if i == 0:
             chosenVector = np.random.randint(0, len(data.multivariateTimeSeries))
-            labels, time = execCalcRuntime(sim.faissL2Search(data, chosenVector, k))
+            labels, time = execCalcRuntime(sim.faissL2Search, data, chosenVector, k)
             originalResults[detection] = labels
         else:
-            labels, time = execCalcRuntime(sim.faissL2Search(data, chosenVector, k))
+            labels, time = execCalcRuntime(sim.faissL2Search, data, chosenVector, k)
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
         results += f"Similarity Search with k={k} - Took {time}s to complete.\n"
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])

@@ -5,9 +5,9 @@ from Utilities import MultivariateTimeSeries as mts
 
 def faissL2Search(collection : mts, vector : int, k : int):
     index = faiss.IndexFlatL2(len(collection.multivariateTimeSeries[0]))
-    index.add(collection[:vector] + collection[vector + 1:])
+    index.add(np.array(collection.multivariateTimeSeries[:vector] + collection.multivariateTimeSeries[vector + 1:]))
 
-    squaredDistance, neighborIndexes = index.search(collection.multivariateTimeSeries[vector], k)
+    squaredDistance, neighborIndexes = index.search(np.array([collection.multivariateTimeSeries[vector]]), k)
     neighborIndexes = neighborIndexes[0]
     neighborIndexes[neighborIndexes >= vector] += 1
 
