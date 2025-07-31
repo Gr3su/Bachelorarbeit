@@ -104,6 +104,9 @@
 % 6. Setup code listings
 % ****************************************************************************************************
 \usepackage{listings} 
+\renewcommand{\lstlistingname}{Code}
+\renewcommand{\lstlistlistingname}{Codeverzeichnis}
+
 %\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
 \lstset{language=[LaTeX]Tex,%C++,
     keywordstyle=\color{RoyalBlue},%\bfseries,
@@ -136,6 +139,30 @@ belowcaptionskip=1\baselineskip,
   commentstyle=\itshape\color{purple!40!black},
   identifierstyle=\color{blue},
   stringstyle=\color{orange}}
+
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{commentgray}{gray}{0.4}
+\definecolor{keywordblue}{RGB}{0,0,180}
+\definecolor{stringgreen}{RGB}{0,150,0}
+
+\lstdefinestyle{Python}{
+    language=Python,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{keywordblue}\bfseries,
+    commentstyle=\color{commentgray}\itshape,
+    stringstyle=\color{stringgreen},
+    numberstyle=\tiny\color{gray},
+    numbers=left,
+    numbersep=10pt,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=4,
+    breaklines=true,
+    frame=single,
+    captionpos=b
+}
+
 % ****************************************************************************************************    		   
 
 

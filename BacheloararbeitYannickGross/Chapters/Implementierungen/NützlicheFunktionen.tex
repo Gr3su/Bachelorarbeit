@@ -1,0 +1,27 @@
+\section{Nützliche Funktionen}
+Die Klasse MultivariateTimeSeries in \textit{Utilities.py}, auch zu sehen in \autoref{lst:multivariateTimeSeries}, ist dazu da eine \ac{MZR} abzuspeichern und zu validieren.
+
+Die Methode \lstinline{__init__} ist der Konstruktor, der eine \ac{MZR} entgegennimmt und diese in den Zeilen 12 bis 15 auf die richtigen Datentypen validiert. In Zeile 17 wird das erste Element aus \lstinline|timeSeries| zum Attribut \lstinline|multivariateTimeSeries| hinzugefügt und in Zeile 18 wird die Anzahl der Elemente 
+
+\begin{lstlisting}[caption=Klasse für \ac{MZR}, language=Python, label=lst:multivariateTimeSeries, style=Python]
+class MultivariateTimeSeries:
+    def addTimeSeries(self, timeSeries):
+        if not isinstance(timeSeries, list) and not isinstance(timeSeries, np.ndarray):
+            raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries)} erhalten.")
+        
+        if len(timeSeries) != self.timeSeriesLength:
+            raise ValueError(f"Das Segment hat {len(timeSeries)} Element(e), muss aber {self.timeSeriesLength} haben.")
+        
+        self.multivariateTimeSeries.append(timeSeries)
+    
+    def __init__(self, timeSeries):
+        if not isinstance(timeSeries, list):
+            raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries)} erhalten.")
+        if not isinstance(timeSeries[0], list) and not isinstance(timeSeries[0], np.ndarray):
+            raise TypeError(f"Erwarte eine List, aber ein {type(timeSeries[0])} erhalten.")
+        
+        self.multivariateTimeSeries = [timeSeries[0]]
+        self.timeSeriesLength = len(timeSeries[0])
+        for i in range(1,len(timeSeries)):
+            self.addTimeSeries(timeSeries[i])
+\end{lstlisting}
