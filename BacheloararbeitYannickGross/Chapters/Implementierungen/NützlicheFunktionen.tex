@@ -1,8 +1,7 @@
 \section{Nützliche Funktionen}
-Die Klasse MultivariateTimeSeries in \textit{Utilities.py}, auch zu sehen in \autoref{lst:multivariateTimeSeries}, ist dazu da eine \ac{MZR} abzuspeichern und zu validieren.
+Die Klasse MultivariateTimeSeries in \textit{Utilities.py}, auch zu sehen in \autoref{lst:multivariateTimeSeries}, ist dazu da, eine \ac{MZR} abzuspeichern und zu validieren.
 
-Die Methode \lstinline{__init__} ist der Konstruktor, der eine \ac{MZR} entgegennimmt und diese in den Zeilen 12 bis 15 auf die richtigen Datentypen validiert. In Zeile 17 wird das erste Element aus \lstinline|timeSeries| zum Attribut \lstinline|multivariateTimeSeries| hinzugefügt und in Zeile 18 wird die Anzahl der Elemente 
-
+Die Methode \lstinline{__init__} ist der Konstruktor, der eine \ac{MZR} entgegennimmt und diese in den Zeilen 12 bis 15 auf die richtigen Datentypen validiert. In Zeile 17 wird das erste Element aus \lstinline|timeSeries| zum Attribut \lstinline|multivariateTimeSeries| hinzugefügt und in Zeile 18 wird die Anzahl der Elemente von \lstinline|timeSeries[0]| in \lstinline|timeSeriesLength| abgespeichert. Mit der darauffolgenden \lstinline|for|-Schleife werden die restlichen Variablen bzw. Zeitreihen hinzugefügt. In \lstinline|addTimeSeries| werden die Zeitreihen der Liste \lstinline|multivariateTimeSeries| hinzugefügt, wenn sie eine \lstinline|list| oder \lstinline|numpy.ndarray| sind und wenn sie gleich viele Elemente haben, wie es \lstinline|timeSeriesLength| vorschreibt. 
 \begin{lstlisting}[caption=Klasse für \ac{MZR}, language=Python, label=lst:multivariateTimeSeries, style=Python]
 class MultivariateTimeSeries:
     def addTimeSeries(self, timeSeries):
@@ -24,4 +23,13 @@ class MultivariateTimeSeries:
         self.timeSeriesLength = len(timeSeries[0])
         for i in range(1,len(timeSeries)):
             self.addTimeSeries(timeSeries[i])
+\end{lstlisting}
+
+Die Funktion \lstinline|execCalcRuntime| in \textit{Utilities.py}, auch zu sehen in \autoref{lst:zeitmessung}, ist dazu da, eine übergebene Funktion aufzurufen und dessen Laufzeit zu messen. Die Funktion gibt sowohl das Ergebnis der übergebenen Funktion, als auch das der Zeitmessung zurück.
+\begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:zeitmessung, style=Python]
+def execCalcRuntime(func, *args):
+    start = perf_counter()
+    result = func(*args)
+    end = perf_counter()
+    return result, end - start
 \end{lstlisting}

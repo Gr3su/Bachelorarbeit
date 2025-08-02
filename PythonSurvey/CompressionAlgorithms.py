@@ -20,7 +20,7 @@ def linearApproximation(multivariateTimeSeries : mts, segmentLength : int):
             # hier in der arbeit erwähnen dass die x werte keine Rolle spielen, außer dass sie den gleichen abstand haben, weil bei der datenauswahl gleichmäßige intervalle gewählt werden
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
             # und hier erwähnen dass die Verfälschung vom letzten Segment keine Rolle spielt, weil es bei jeder Zeitreihe verfälscht wird
-            p = Pol.fit(range(0, segmentLength), i[j:rightBoundary], deg=1)
+            p = Pol.fit(range(0, rightBoundary - j), i[j:rightBoundary], deg=1)
             coefficients = np.append(coefficients, p(range(0, segmentLength, segmentLength - 1)))
 
         compressedMultivariateTimeSeries.append(coefficients.astype(float).tolist())
@@ -34,7 +34,7 @@ def polynomialApproximation(multivariateTimeSeries : mts, segmentLength : int):
         coefficients = np.array([])
         for j in range(0, multivariateTimeSeries.timeSeriesLength, segmentLength):
             rightBoundary = j + segmentLength if j + segmentLength <= len(i) else len(i)
-            p = Pol.fit(range(0, segmentLength), i[j:rightBoundary], deg=3)
+            p = Pol.fit(range(0, rightBoundary - j), i[j:rightBoundary], deg=3)
             coefficients = np.append(coefficients, p.convert().coef)
         
         compressedMultivariateTimeSeries.append(coefficients.astype(float).tolist())
@@ -52,8 +52,8 @@ def dwtApproximation(multivariateTimeSeries : mts, iterations : int):
         compressedMultivariateTimeSeries.append(data.astype(float).tolist())
     return compressedMultivariateTimeSeries
 
-def dftApproximation(multivariateTimeSeries : mts, keepPercentile : float):
-    #checkParameters(multivariateTimeSeries, keepPercentile)
+def dftApproximation(multivariateTimeSeries : mts, keepPercentile : int):
+    checkParameters(multivariateTimeSeries, keepPercentile)
 
     compressedMultivariateTimeSeries = []
     for i in multivariateTimeSeries.multivariateTimeSeries:
