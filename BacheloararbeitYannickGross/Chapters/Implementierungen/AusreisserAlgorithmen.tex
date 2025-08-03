@@ -1,0 +1,30 @@
+\section{Algorithmen zur Ausreißererkennung}
+Die Funktionen \lstinline|knnDetection| und \lstinline|isolationForestDetection| in \textit{AnomalyAlgorithms.py}, auch zu sehen in \autoref{lst:pyodAlgorithms}, ist dazu da, unter den Zeitreihen einer \ac{MZR} Ausreißer zu finden. Dafür wird die Open Source Bibliothek \lstinline|PyOD| (Python Outlier Detection) V2 \cite{zhao2024} genutzt. \lstinline|PyOD| ermöglicht es, durch ein sehr simples, objektorientiertes Interface, die implementierten Ausreißererkennungs"=Verfahren zu nutzen. 
+\begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:pyodAlgorithms, style=Python, language=Python]
+def knnDetection(multivariateTimeSeries : mts):
+    clf = KNN()
+    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return clf.labels_
+
+def isolationForestDetection(multivariateTimeSeries : mts):
+    clf = IForest()
+    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return clf.labels_
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:randomProjection, style=Python, language=Python]
+def randomProjectionsDetection(multivariateTimeSeries : mts):
+    scores = np.zeros(len(multivariateTimeSeries.multivariateTimeSeries))
+
+    for i in range(100):
+        randomVector = np.random.randn(multivariateTimeSeries.timeSeriesLength)
+        coeffs = []
+        for series in multivariateTimeSeries.multivariateTimeSeries:
+            coeffs.append([np.dot(series, randomVector)])
+        clf = MAD()
+        clf.fit(coeffs)
+        scores += clf.decision_scores_
+    clf = MAD()
+    clf.fit([[x] for x in scores])
+    return clf.labels_
+\end{lstlisting}

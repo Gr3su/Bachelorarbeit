@@ -1,9 +1,9 @@
-\section{Kompressions Algorithmen}\label{sec:kompressionsAlgorithmen}
+\section{Algorithmen zur Kompression}\label{sec:kompressionsAlgorithmen}
 Alle Funktionen in diesem Kapitel haben an ihrem Anfang den Aufruf der Funktion \lstinline|checkParameters|, um die Datentypen der übergebenen Argumente zu validieren. In diesem Teil des Codes kommen zwei Open Source Bibliotheken zum Einsatz, und zwar \lstinline|Numpy| \cite{cksr2020} und \lstinline|PyWavelets| \cite{grfk2019}.
 
-Die Funktion \lstinline|polynomialApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:stückweisepolynomielleapproximation}, ist dazu da, jede Variable einer \ac{MZR} stückweise polynomielle zu approximieren und dadurch zu komprimieren. Die Funktion \lstinline|linearApproximation| ist identisch zu dieser, außer dass der Parameter \lstinline|deg| in Zeile 9 auf 1 statt 3 gesetzt wird. Daher wird diese Funktion in \autoref{sec:kompressionsAlgorithmen} nicht weiter beschrieben.
+Die Funktion \lstinline|polynomialApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:stückweisepolynomielleapproximation}, ist dazu da, jede Zeitreihe einer \ac{MZR} stückweise polynomielle zu approximieren und dadurch zu komprimieren. Die Funktion \lstinline|linearApproximation| ist identisch zu dieser, außer dass der Parameter \lstinline|deg| in Zeile 9 auf 1 statt 3 gesetzt wird. Daher wird diese Funktion in \autoref{sec:kompressionsAlgorithmen} nicht weiter beschrieben.
 
-In Zeile 4 wird die \lstinline|list| Variable \lstinline|compressedMultivariateTimeSeries| initialisiert, in der die neuen \lstinline|list| Objekte gespeichert werden, die die komprimierte Werte enthalten. Die erste \lstinline|for|"=Schleife iteriert über die Variablen bzw. die einzelnen Zeitreihen der \ac{MZR}, dabei werden in \lstinline|coefficients| die Koeffizienten der aktuellen Zeitreihe gespeichert. In der zweiten \lstinline|for|"=Schleife werden die einzelnen Segmente approximiert. Dafür iteriert die Schleife über die Indexe der Zeitreihe, die die linken Ränder der Segmente sind und berechnet in Zeile 8 dann den rechten Rand, indem auf den Wert des linken Randes die Segmentlänge \lstinline|segmentLength| addiert wird. Liegt der berechnete rechte Rand oberhalb der Länge der Zeitreihe, so wird er auf den letzten möglichen Wert \lstinline|len(i)| gesetzt. Um der Konvention in Python gerecht zu werden, ist der linke Rand des Segments inklusiv und der rechte Rand exklusiv. Somit kann in Zeile 9 mit \lstinline|i[j:rightBoundary]| direkt das Segment aus der ursprünglichen Zeitreihe herausgeschnitten werden. Die Funktion \lstinline|fit| aus \lstinline|numpy.polynomial.polynomial.Polynomial| findet mit dem Übergabeparameter \lstinline|deg=3| das Polynom 3. Grades, das den least squares fit zu dem Segment \lstinline|i[j:rightBoundary]| hat. Um interne umskalierungen von \lstinline|numpy| rückgängig zu machen und um dann die Koeffizienten des Polynoms zu erhalten, wird in Zeile 10 \lstinline|p.convert().coef| aufgerufen. Diese Koeffizienten werden dann der Liste mit den anderen Koeffizienten angehangen, um nach Beendigung der zweiten Schleife als Liste zu \lstinline|compressedMultivariateTimeSeries| hinzugefügt zu werden.
+In Zeile 4 wird die \lstinline|list| Variable \lstinline|compressedMultivariateTimeSeries| initialisiert, in der die neuen \lstinline|list| Objekte gespeichert werden, die die komprimierte Werte enthalten. Die erste \lstinline|for|"=Schleife iteriert über die einzelnen Zeitreihen der \ac{MZR}, dabei werden in \lstinline|coefficients| die Koeffizienten der aktuellen Zeitreihe gespeichert. In der zweiten \lstinline|for|"=Schleife werden die einzelnen Segmente approximiert. Dafür iteriert die Schleife über die Indexe der Zeitreihe, die die linken Ränder der Segmente sind und berechnet in Zeile 8 dann den rechten Rand, indem auf den Wert des linken Randes die Segmentlänge \lstinline|segmentLength| addiert wird. Liegt der berechnete rechte Rand oberhalb der Länge der Zeitreihe, so wird er auf den letzten möglichen Wert \lstinline|len(i)| gesetzt. Um der Konvention in Python gerecht zu werden, ist der linke Rand des Segments inklusiv und der rechte Rand exklusiv. Somit kann in Zeile 9 mit \lstinline|i[j:rightBoundary]| direkt das Segment aus der ursprünglichen Zeitreihe herausgeschnitten werden. Die Funktion \lstinline|fit| aus \lstinline|numpy.polynomial.polynomial.Polynomial| findet mit dem Übergabeparameter \lstinline|deg=3| das Polynom 3. Grades, das den least squares fit zu dem Segment \lstinline|i[j:rightBoundary]| hat. Um interne umskalierungen von \lstinline|numpy| rückgängig zu machen und um dann die Koeffizienten des Polynoms zu erhalten, wird in Zeile 10 \lstinline|p.convert().coef| aufgerufen. Diese Koeffizienten werden dann der Liste mit den anderen Koeffizienten angehangen, um nach Beendigung der zweiten Schleife als Liste zu \lstinline|compressedMultivariateTimeSeries| hinzugefügt zu werden.
 \begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:stückweisepolynomielleapproximation, style=Python, language=Python]
 def polynomialApproximation(multivariateTimeSeries : mts, segmentLength : int):
     checkParameters(multivariateTimeSeries, segmentLength)
@@ -20,9 +20,9 @@ def polynomialApproximation(multivariateTimeSeries : mts, segmentLength : int):
     return compressedMultivariateTimeSeries
 \end{lstlisting}
 
-Die Funktion \lstinline|dwtApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:diskretewavelettransformation}, ist dazu da, jede Variable einer \ac{MZR} mit der diskreten Wavelet"=Transformation zu approximieren und dadurch zu komprimieren.
+Die Funktion \lstinline|dwtApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:diskretewavelettransformation}, ist dazu da, jede Zeitreihe einer \ac{MZR} mit der diskreten Wavelet"=Transformation zu approximieren und dadurch zu komprimieren.
 
-In Zeile 4 wird die \lstinline|list| Variable \lstinline|compressedMultivariateTimeSeries| initialisiert, in der die neuen \lstinline|list| Objekte gespeichert werden, die die komprimierte Werte enthalten. Die erste \lstinline|for|"=Schleife iteriert über die Variablen bzw. die einzelnen Zeitreihen der \ac{MZR}, dabei wird in \lstinline|data| der aktuelle Stand der Kompression gespeichert. In Zeile 8 werden dann mittels der Funktion \lstinline|pywt.dwt| und der Wavelet \lstinline|db1| die Daten approximiert. Die Approximations"= und Differenz"=Koeffizienten sind die Rückgabewerte der Funktion, wobei \lstinline|data| nur mit den Approximations"=Koeffizienten überschrieben wird. 
+In Zeile 4 wird die \lstinline|list| Variable \lstinline|compressedMultivariateTimeSeries| initialisiert, in der die neuen \lstinline|list| Objekte gespeichert werden, die die komprimierte Werte enthalten. Die erste \lstinline|for|"=Schleife iteriert über die einzelnen Zeitreihen der \ac{MZR}, dabei wird in \lstinline|data| der aktuelle Stand der Kompression gespeichert. In Zeile 8 werden dann mittels der Funktion \lstinline|pywt.dwt| und der Wavelet \lstinline|db1| die Daten approximiert. Die Approximations"= und Differenz"=Koeffizienten sind die Rückgabewerte der Funktion, wobei \lstinline|data| nur mit den Approximations"=Koeffizienten überschrieben wird.
 \begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:diskretewavelettransformation, style=Python, language=Python]
 def dwtApproximation(multivariateTimeSeries : mts, iterations : int):
     checkParameters(multivariateTimeSeries, iterations)
@@ -34,5 +34,33 @@ def dwtApproximation(multivariateTimeSeries : mts, iterations : int):
             coefApprox, coefDiff = pywt.dwt(data, 'db1')
             data = coefApprox
         compressedMultivariateTimeSeries.append(data.astype(float).tolist())
+    return compressedMultivariateTimeSeries
+\end{lstlisting}
+
+Die Funktion \lstinline|dftApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:diskretefouriertransformation}, ist dazu da, jede Zeitreihe einer \ac{MZR} mit der diskreten Fourier"=Transformation zu approximieren und dadurch zu komprimieren.
+
+In Zeile 4 wird die \lstinline|list| Variable \lstinline|compressedMultivariateTimeSeries| initialisiert, in der die neuen \lstinline|list| Objekte gespeichert werden, die die komprimierte Werte enthalten. Die erste \lstinline|for|"=Schleife iteriert über die einzelnen Zeitreihen der \ac{MZR}. Mit der Funktion \lstinline|fft| aus \lstinline|numpy.fft| wird die Fast Fourier Transformation auf die Daten in \lstinline|i| angewandt. Die nächsten Schritte sind dazu da die Daten so weit zu minimieren, bis nur noch das Nötigste vorhanden ist. So wird in Zeile 7 die zweite Hälfte von \lstinline|sp| entfernt, da sie im Prinzip nur die Informationen aus der ersten Hälfte enthält, aber in verkehrter Reihenfolge. In Zeile 8 ersetzen wir dann die komplexen Zahlen durch ihre Beträge, wodurch wir die Amplituden der Frequenzen erhalten. Damit erreichen wir, dass wir keine komplexen Zahlen mehr speichern müssen und dennoch aussagekräftige Werte haben. Zeile 9 und 10 sind dann dazu da, die Frequenzen die nicht zu den oberen \lstinline|keepPercentile|"=Prozent gehören, auf 0 zu setzen. Dadurch können nun viele Werte gleich 0 sein, was unnötig viel Speicher verbrauchen kann. Um die Anzahl der Nullen zu reduzieren, wird von Zeile 14 bis 20 über alle Zeitreihen iteriert und der größte Index gesucht, der ungleich 0 ist. Wurde dieser Index gefunden, werden alle Zeitreihen bis zu diesem Index getrimmt. Damit ist garantiert, dass die Zeitreihen alle dieselbe Länge haben und möglichst viele Nullen entfernt wurden.
+\begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:diskretefouriertransformation, style=Python, language=Python]
+def dftApproximation(multivariateTimeSeries : mts, keepPercentile : int):
+    checkParameters(multivariateTimeSeries, keepPercentile)
+
+    compressedMultivariateTimeSeries = []
+    for i in multivariateTimeSeries.multivariateTimeSeries:
+        sp = fft(i)
+        sp = sp[:len(sp) // 2]
+        sp = np.abs(sp)
+        threshold = np.percentile(sp, 100 - keepPercentile)
+        sp[sp < threshold] = 0
+        
+        compressedMultivariateTimeSeries.append(sp.astype(float).tolist())
+
+    max_index = 0
+    for i in compressedMultivariateTimeSeries:
+        nonzeroIndex = np.nonzero(i)[0][-1].tolist()
+        max_index = max(max_index, nonzeroIndex)
+        
+    if max_index != 0:
+        compressedMultivariateTimeSeries = [arr[0:max_index+1] for arr in compressedMultivariateTimeSeries]
+
     return compressedMultivariateTimeSeries
 \end{lstlisting}
