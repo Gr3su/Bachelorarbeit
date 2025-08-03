@@ -59,9 +59,9 @@ def dftApproximation(multivariateTimeSeries : mts, keepPercentile : int):
     for i in multivariateTimeSeries.multivariateTimeSeries:
         sp = fft(i)
         sp = sp[:len(sp) // 2]
-        threshold = np.percentile(np.abs(sp), 100 - keepPercentile)
-        sp[np.abs(sp) < threshold] = 0
         sp = np.abs(sp)
+        threshold = np.percentile(sp, 100 - keepPercentile)
+        sp[sp < threshold] = 0
         
         compressedMultivariateTimeSeries.append(sp.astype(float).tolist())
 

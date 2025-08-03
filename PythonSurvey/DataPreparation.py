@@ -90,18 +90,12 @@ if __name__ == "__main__":
     full_paths = [os.path.join(sys.argv[1], filename) for filename in os.listdir(sys.argv[1])]
     full_paths = [path for path in full_paths if os.path.isfile(path)]
 
+    contents = readFiles(full_paths)
     match int(sys.argv[2]):
         case 0:
-            contents = readFiles(full_paths)
             nvidiaData(contents, full_paths)
-            writeFiles(full_paths, contents)
         case 1:
-            contents = readFiles(full_paths)
             euWeatherData(contents, full_paths)
-            writeFiles(full_paths, contents)
         case 2:
-            contents = readFiles(full_paths)
             ecg500(contents, full_paths)
-            writeFiles(full_paths, contents)
-        case 3:
-            pass
+    writeFiles(full_paths, contents)
