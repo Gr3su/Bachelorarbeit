@@ -1,30 +1,31 @@
 \section{Algorithmen zur Ausreißererkennung}
-Die Funktionen \lstinline|knnDetection| und \lstinline|isolationForestDetection| in \textit{AnomalyAlgorithms.py}, auch zu sehen in \autoref{lst:pyodAlgorithms}, ist dazu da, unter den Zeitreihen einer \ac{MZR} Ausreißer zu finden. Dafür wird die Open Source Bibliothek \lstinline|PyOD| (Python Outlier Detection) V2 \cite{zhao2024} genutzt. \lstinline|PyOD| ermöglicht es, durch ein sehr simples, objektorientiertes Interface, die implementierten Ausreißererkennungs"=Verfahren zu nutzen. 
+Die Funktionen \lstinline|knnDetection|, \lstinline|isolationForestDetection| und \texttt{randomProjectionsDetec\allowbreak tion} in \textit{AnomalyAlgorithms.py}, auch zu sehen in \autoref{lst:pyodAlgorithms} beziehungsweise \autoref{lst:randomProjection}, ist dazu da, unter den Zeitreihen einer \ac{MZR} Ausreißer zu finden. Dafür wird die Open Source Bibliothek \lstinline|PyOD| (Python Outlier Detection) V2 \cite{zhao2024} genutzt. \lstinline|PyOD| ermöglicht es, durch ein sehr simples, objektorientiertes Interface, die implementierten Ausreißererkennungs"=Verfahren zu nutzen. Mit \lstinline|KNN()| und \lstinline|IForest()| in \autoref{lst:pyodAlgorithms} bzw. mit \lstinline|MAD()| in \autoref{lst:randomProjection}, aus den jeweiligen Klassen in \lstinline|pyod.models|, wird der Standardkonstruktor der Detektoren aufgerufen, dieser setzt gewisse Parameter wie die \lstinline|contamination| oder den \lstinline|threshold| auf ihre Standardwerte. Mit dem Aufruf der Methode \lstinline|fit| wird der Detektor mit den Daten der \ac{MZR} geladen und der jeweilige Algorithmus verarbeitet dann diese Daten, um die Zeitreihen nach ihren Auffälligkeiten zu bewerten. Umso höher diese Wertung ist, umso eher ist eine Zeitreihe als Ausreißer zu werten. Die Verfahren \lstinline|knn| und \lstinline|iForest| bekommen im Standardkonstruktor den Wert \lstinline|contamination=0.1| gesetzt, das bedeutet, dass 10~\% der Zeitreihen als Ausreißer markiert werden, und zwar die, mit den höchsten Wertungen. Im Attribut \lstinline|labels_| findet sich nach dem Aufruf von \lstinline|fit| ein Array der Länge entsprechend der Anzahl an Zeitreihen in der übergebenen \ac{MZR}. Dieses Array enthält für jede Zeitreihe das Ergebnis der Ausreißererkennung: 0 für Normal, 1 für Ausreißer.
 \begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:pyodAlgorithms, style=Python, language=Python]
 def knnDetection(multivariateTimeSeries : mts):
-    clf = KNN()
-    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
-    return clf.labels_
+    detector = KNN()
+    detector.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return detector.labels_
 
 def isolationForestDetection(multivariateTimeSeries : mts):
-    clf = IForest()
-    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
-    return clf.labels_
+    detector = IForest()
+    detector.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return detector.labels_
 \end{lstlisting}
 
+In \autoref{lst:randomProjection} ist es etwas mehr Code, da \lstinline|PyOD| dieses Verfahren nicht direkt implementiert. Die \lstinline|scores| Variable speichert für jede Zeitreihe die addierten Wertungen der Wahrscheinlichkeit eines Ausreißers. Die erste \lstinline|for|"=Schleife erstellt einen Vektor mit zufälligen positiven Werten, der dann in der zweiten \lstinline|for|"=Schleife folgendermaßen mit jeder Zeitreihe verknüpft wird: \\ \lstinline[breaklines=true]|randomV[0] * series[0] + randomV[1] * series[1] +| \dots{}\lstinline|+ randomV[-1] * series[-1]|. \\ Daraufhin werden die erhaltenen Werte Mittels des Detektors \lstinline|MAD| auf Ausreißer untersucht und die Wertungen in der \lstinline|scores| Variable gespeichert. Nach Beendigung der ersten Schleife wird unter den Scores, wieder mit \lstinline|MAD|, nach Ausreißern gesucht.
 \begin{lstlisting}[caption=Stückweise polynomielle Approximation, label=lst:randomProjection, style=Python, language=Python]
 def randomProjectionsDetection(multivariateTimeSeries : mts):
     scores = np.zeros(len(multivariateTimeSeries.multivariateTimeSeries))
 
     for i in range(100):
-        randomVector = np.random.randn(multivariateTimeSeries.timeSeriesLength)
-        coeffs = []
+        randomVector = np.abs(np.random.randn(multivariateTimeSeries.timeSeriesLength))
+        values = []
         for series in multivariateTimeSeries.multivariateTimeSeries:
-            coeffs.append([np.dot(series, randomVector)])
-        clf = MAD()
-        clf.fit(coeffs)
-        scores += clf.decision_scores_
-    clf = MAD()
-    clf.fit([[x] for x in scores])
-    return clf.labels_
+            values.append([np.dot(series, randomVector)])
+        detector = MAD()
+        detector.fit(values)
+        scores += detector.decision_scores_
+    detector = MAD()
+    detector.fit([[x] for x in scores])
+    return detector.labels_
 \end{lstlisting}
