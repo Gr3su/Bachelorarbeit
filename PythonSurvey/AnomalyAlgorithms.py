@@ -6,31 +6,31 @@ from Utilities import MultivariateTimeSeries as mts
 import numpy as np
 
 def knnDetection(multivariateTimeSeries : mts):
-    clf = KNN()
-    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
-    return clf.labels_
+    detector = KNN()
+    detector.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return detector.labels_
 
 def lofDetection(multivariateTimeSeries : mts):
-    clf = LOF()
-    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
-    return clf.labels_
+    detector = LOF()
+    detector.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return detector.labels_
 
 def isolationForestDetection(multivariateTimeSeries : mts):
-    clf = IForest()
-    clf.fit(multivariateTimeSeries.multivariateTimeSeries)
-    return clf.labels_
+    detector = IForest()
+    detector.fit(multivariateTimeSeries.multivariateTimeSeries)
+    return detector.labels_
 
 def randomProjectionsDetection(multivariateTimeSeries : mts):
     scores = np.zeros(len(multivariateTimeSeries.multivariateTimeSeries))
 
     for i in range(100):
-        randomVector = np.random.randn(multivariateTimeSeries.timeSeriesLength)
-        coeffs = []
+        randomVector = np.abs(np.random.randn(multivariateTimeSeries.timeSeriesLength))
+        values = []
         for series in multivariateTimeSeries.multivariateTimeSeries:
-            coeffs.append([np.dot(series, randomVector)])
-        clf = MAD()
-        clf.fit(coeffs)
-        scores += clf.decision_scores_
-    clf = MAD()
-    clf.fit([[x] for x in scores])
-    return clf.labels_
+            values.append([np.dot(series, randomVector)])
+        detector = MAD()
+        detector.fit(values)
+        scores += detector.decision_scores_
+    detector = MAD()
+    detector.fit([[x] for x in scores])
+    return detector.labels_

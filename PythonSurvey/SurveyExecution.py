@@ -125,7 +125,7 @@ if __name__ == "__main__":
         files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
 
         if i == 0:
-            results += files + "\n"
+            results += files + "\n\n\n"
         else:
             results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n\n\n"
     
