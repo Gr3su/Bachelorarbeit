@@ -1,5 +1,5 @@
 \section{Kompression von Zeitreihen}
-Übersetzt aus dem Englischen, beschreibt D. Salomon den Begriff Daten Kompression in "`Data compression : The Complete Reference"'\cite[p. 1-2]{d2004} folgendermaßen:"`\textit{Daten Kompression ist der Prozess der Konvertierung eines Eingangsdatenstroms [\ldots], hin zu einem anderen Datenstrom [\ldots] der eine kleinere Größe hat. Ein Strom ist entweder eine Datei oder ein Puffer im Speicher.}'"
+Übersetzt aus dem Englischen, beschreibt D. Salomon den Begriff Daten Kompression in "`Data compression: The Complete Reference"' \cite[p. 1-2]{d2004} folgendermaßen: "`\textit{Daten Kompression ist der Prozess der Konvertierung eines Eingangsdatenstroms [\ldots], hin zu einem anderen Datenstrom [\ldots] der eine kleinere Größe hat. Ein Strom ist entweder eine Datei oder ein Puffer im Speicher.}"'
 
 Laut ihm gibt es zwei Hauptgründe warum man Daten komprimiert. Erstens ist der physische Speicher begrenzt, das heißt man möchte das Volllaufen mittels Aussortieren und Kompression so weit hinauszögern wie nur möglich, wobei das Aussortieren aufwendig sein kann als das Komprimieren. Zweitens ist der Mensch ungeduldig, das heißt man möchte viele Daten schnell übertragen können und nicht mehrere Sekunden warten bis die Daten z.B. angezeigt werden. In unserem Fall spielt der erste Grund wohl die wichtigere Rolle, da es darum geht, Zeitreihen effizient speichern zu können und sie dann zu analysieren, statt sie zu verschieben oder zu versenden.
 
@@ -20,5 +20,25 @@ Diese Herangehensweise ist für unser Experiment allerdings nicht geeignet. Denn
 Die stückweise lineare Approximation stellt einen Spezialfall der stückweisen polynomiellen Approximation dar, bei dem ausschließlich Polynome ersten Grades (also lineare Funktionen) zur Approximation der Segmente verwendet werden.
 Durch die Beschränkung auf Grad 1 ergibt sich eine einfachere Funktionsform sowie geringerer Rechenaufwand, jedoch unter Umständen auch eine schlechtere Approximation komplexer Verläufe im Vergleich zu höhergradigen polynomiellen Approximationen.
 
-\subsection{Diskrete Fourier Transformation}
-Die \ac{DFT} ist ein mathematisches Verfahren zur Zerlegung einer endlichen, diskreten Zeitreihe in ihre Frequenzteile.
+\subsection{Diskrete Fourier-Transformation}
+Die \ac{DFT} ist ein mathematisches Verfahren zur Zerlegung einer endlichen, diskreten Zeitreihe in ihre Frequenzteile. Das heißt für eine gegebene Zeitreihe $[(t_0,x_0),(t_1,x_1),\ldots,(t_{n-1},x_{n-1})]$, gibt \acs{DFT} eine neue Liste, mit den Frequenzen von 1 bis $n$, zurück. Für diese Transformation ist folgende Formel definiert:
+\[y_k=\sum_{\ell=0}^{n-1}x_\ell\,e^{-i\,\tfrac{2\pi k}{n}\,\ell},\]
+wobei $[y_0,y_1,\ldots,y_{n-1}]$ die neue Liste ist und $i$ die imaginäre Einheit.
+
+Was dieses Verfahren tut, lässt sich gut an einem Beispiel zeigen. In \autoref{fig:dftKomplettBeispiel} sieht man in Grün ein Signal, das aus drei sich überlagernden Frequenzen erstellt wurde. Die blauen Punkte sind zwölf Messpunkte einer Zeitreihe, die dieses Signal abgetastet hat, und die gelben Kreuze sind das Ergebnis der \acs{DFT}. 
+\begin{figure}[bth] 
+  \centering
+  \includegraphics[width=0.7\textwidth]{Graphics/DFTExample1.pdf}
+  \caption{Beispiel einer diskreten Fourier"=Transformation}
+  \label{fig:dftKomplettBeispiel}
+\end{figure}
+
+\begin{figure}[bth]
+  \subfloat[Erstes ...]{\includegraphics[width=0.49\textwidth]{Graphics/DFTExample4.pdf}\label{subfig:dft2}}\hfill
+  \subfloat[... und zweites Bild]{\includegraphics[width=0.49\textwidth]{Graphics/DFTExample3.pdf}\label{subfig:df3}}\hfill
+  \centering\subfloat[... und drittes Bild]{\includegraphics[width=0.49\textwidth]{Graphics/DFTExample2.pdf}\label{subfig:dft4}}
+  \caption{Mehrere Abbildungen nebeneinander}
+  \label{fig:dftEinzelneFrequenzen}
+\end{figure}
+
+Zum besseren Verständnis der am Anfang genannten Formel wird in diesem Abschnitt nun näher auf die Mathematik dahinter eingegangen. In der Formel handelt es sich wegen der imaginären Einheit $i$ um komplexe Zahlen. Diese bestehen aus einem Real Teil $a$ und einem Imaginär Teil $b$, also in der Form $a + ib$. Sie können allerdings auch als Punkt in einer zweidimensionalen Ebene interpretiert werden, dann liegt der Real Teil typischerweise auf der x-Achse und der Imaginär Teil auf der y-Achse. Außerdem gibt es die Exponentialform $a+ib=re^{i\varphi}$, wobei $r$ der Abstand vom Ursprung zum Punkt $(a,b)$ ist und $\varphi$ der Winkel den diese Strecke mit der x-Achse einschließt. $r$ wird auch Betrag genannt und wird folgendermaßen berechnet: $r=\sqrt{a^2+b^2}$. 

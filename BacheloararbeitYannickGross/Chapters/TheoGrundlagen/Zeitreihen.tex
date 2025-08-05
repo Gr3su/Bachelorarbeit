@@ -1,9 +1,7 @@
 \section{Zeitreihe}
 Eine Zeitreihe ist eine nach den Zeitpunkten aufsteigend sortierte Aneinanderreihung von geordnete Wertepaaren. Dabei besteht ein solches Wertepaar $(t_i, x_i)$ aus einem Zeitpunkt $t_i$ und einem Vektor $x_i$ mit reellen Werten. Die Wertepaare sind Beobachtungen einer Messung, in der ständig in gleichen Abständen ein oder mehrere Werte gleichzeitig erfasst werden. Das heißt, für eine \ac{ZR} gilt 
-\begin{equation}
-    ZR=[(t_1,x_1),(t_2,x_2),\ldots,(t_n,x_n)], \quad x_i \in \mathbb{R}^d,
-\end{equation}
-wobei $n$ die Anzahl der Beobachtungen und $d$ die Anzahl der Dimensionen der \acs{ZR} ist. 
+\[ZR=[(t_0,x_0),(t_1,x_1),\ldots,(t_{n-1},x_{n-1})], \quad x_i \in \mathbb{R}^d,\]
+wobei $n$ die Anzahl der Beobachtungen und $d$ die Anzahl der Dimensionen der \acs{ZR} ist.\footnote{In der gesamten Arbeit wird durchgehend die Indizierung von 0 bis $n-1$ verwendet, da dies der Implementierung in der benutzten Programmiersprache Python entspricht.}\label{foot:indexe}
 
 Man unterscheidet anhand der Dimension zwei Typen von Zeitreihen. Beträgt die Dimension genau eins, so nennt man sie eine \ac{UZR}, ist es mehr als eine Dimension, so nennt man sie eine \ac{MZR}.
 
