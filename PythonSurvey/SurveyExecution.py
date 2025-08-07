@@ -79,7 +79,9 @@ if __name__ == "__main__":
         detection = "knn"
         labels, time = execCalcRuntime(anom.knnDetection, data)
         results += f"knn Detection - Took {time}s to complete.\n"
-        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
+        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        files = ", ".join([str(x) for x in files])
+        
         if i == 0:
             originalResults[detection] = labels
             results += files + "\n"
@@ -91,7 +93,9 @@ if __name__ == "__main__":
         detection = "iForest"
         labels, time = execCalcRuntime(anom.isolationForestDetection, data)
         results += f"iForest Detection - Took {time}s to complete.\n"
-        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
+        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        files = ", ".join([str(x) for x in files])
+
         if i == 0:
             originalResults[detection] = labels
             results += files + "\n"
@@ -103,7 +107,9 @@ if __name__ == "__main__":
         detection = "randomP"
         labels, time = execCalcRuntime(anom.randomProjectionsDetection, data)
         results += f"Random Projection Detection - Took {time}s to complete.\n"
-        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
+        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        files = ", ".join([str(x) for x in files])
+
         if i == 0:
             originalResults[detection] = labels
             results += files + "\n"
@@ -122,13 +128,14 @@ if __name__ == "__main__":
             labels, time = execCalcRuntime(sim.faissL2Search, data, chosenVector, k)
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
         results += f"Similarity Search with k={k} - Took {time}s to complete.\n"
-        files = ", ".join([os.path.basename(full_paths[i]) for i in np.where(labels == 1)[0]])
+        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        files = ", ".join([str(x) for x in files])
 
         if i == 0:
             results += files + "\n\n\n"
         else:
             results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n\n\n"
-    
+        
     results = results.strip()
 
     resultsPath = sys.argv[1] + "../anomalyResults.txt"

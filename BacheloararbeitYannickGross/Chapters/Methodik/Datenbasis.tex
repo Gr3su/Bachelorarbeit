@@ -1,2 +1,13 @@
 \section{Datenbasis}
-\cite{klein2002eca}
+Für das Experiment wurden drei verschiedene Datensätze benutzt, die drei verschiedene Fälle abdecken: 
+\begin{itemize}
+    \item der Aktienkurs von Nvidia \cite{nvidiaStock}, wobei hier die Differenz zwischen Schlusskurs und Eröffnungskurs genutzt wird,
+    \item die tägliche Durchschnittstemperatur an Wetterstationen in Europa \cite{ecadWetterdaten},
+    \item ein EKG \cite{ecg500}, wobei hier der Datensatz \textit{ECG5000\_TRAIN.txt} genutzt wird.
+\end{itemize}
+
+Aktienkurse sind interessant, da man in Ihnen Trends erkennen kann oder sogar Saisonalität, also z.~B. dass der Kurs zum Jahresende immer steigt, weil wegen Weihnachten der Umsatz steigt. Ansonsten ist die Struktur der Daten unorganisiert, heißt die Daten rauschen viel und es kann extreme Sprünge geben.
+
+Die Wetterdaten sind von verschiedenen Wetterstationen aus ganz Europa und sollen dadurch verschiedene Klimas abdecken. Wegen der Jahreszeiten lassen sich somit die Daten gut bezüglich ihrer Saisonalität vergleichen, besser als bei Aktienkursen. Allerdings sind weniger Trends zu erkennen, da diese über längere Perioden geschehen, als wir sie betrachten. Die Struktur von Wetterdaten ist sehr glatt, bis auf die Schwankungen zwischen den Jahreszeiten sind die Verläufe sehr stetig.
+
+Die EKG"=Daten wiederum sind interessant, weil sie weder Saisonalität noch Trends bieten, dafür eine sehr strenge Struktur haben. Sie wiederholen sich in einer sehr kleinen Periode und haben eine feste Wellenform, von der nur bei bestimmten Ereignissen abgewichen wird.

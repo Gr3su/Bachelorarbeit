@@ -1,5 +1,5 @@
 \section{Algorithmen zur Kompression}\label{sec:kompressionsAlgorithmen}
-Alle Funktionen in diesem Abschnitt haben an ihrem Anfang den Aufruf der Funktion \lstinline|checkParameters|, um die Datentypen der übergebenen Argumente zu validieren. Außerdem kommen in diesem Teil des Codes zwei Open Source Bibliotheken zum Einsatz, und zwar \lstinline|Numpy| \cite{cksr2020} und \lstinline|PyWavelets| \cite{grfk2019}.
+Alle Funktionen in diesem Abschnitt haben an ihrem Anfang den Aufruf der Funktion \lstinline|checkParameters|, um die Datentypen der übergebenen Argumente zu validieren. Außerdem kommen in diesem Teil des Codes zwei Open Source Bibliotheken zum Einsatz, und zwar \lstinline|Numpy| \cite{numpy} und \lstinline|PyWavelets| \cite{pyWavelets}.
 
 Die Funktion \lstinline|polynomialApproximation| in \textit{CompressionAlgorithms.py}, auch zu sehen in \autoref{lst:stückweisepolynomielleapproximation}, ist dazu da, jede Zeitreihe einer \ac{MZR} stückweise polynomielle zu approximieren und dadurch zu komprimieren. Die Funktion \lstinline|linearApproximation| ist identisch zu dieser, außer dass der Parameter \lstinline|deg| in Zeile 9 auf 1 statt 3 gesetzt wird. Daher wird diese Funktion in \autoref{sec:kompressionsAlgorithmen} nicht weiter beschrieben.
 

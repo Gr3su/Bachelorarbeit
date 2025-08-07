@@ -1,12 +1,12 @@
 \section{Ausreißer und Ähnlichkeit}
 \subsection{Ausreißer}
-In "`A Review on Outlier/Anomaly Detection in Time Series Data"' \cite[Ch. 2.2]{aauj2021} werden drei verschiedene Typen von Ausreißern unterschieden. Darunter zählen Punkt"=Ausreißer (engl. \textit{Point outliers}), Teilfolge"=Ausreißer (engl. \textit{Subsequence outliers}) und Zeitreihen"=Ausreißer (engl. \textit{Outlier time series}).
+In "`A Review on Outlier/Anomaly Detection in Time Series Data"' \cite[Ch. 2.2]{reviewOutlierDetection} werden drei verschiedene Typen von Ausreißern unterschieden. Darunter zählen Punkt"=Ausreißer (engl. \textit{Point outliers}), Teilfolge"=Ausreißer (engl. \textit{Subsequence outliers}) und Zeitreihen"=Ausreißer (engl. \textit{Outlier time series}).
 
 Ein Punkt"=Ausreißer ist ein einzelner Datenpunkt der, verglichen zu anderen Datenpunkten, auffällig anders ist. Dabei unterscheidet man zwischen einem lokalen und einem globalen Punkt"=Ausreißer, je nachdem ob man nur mit Punkten in einem gewissen Abstand zum Referenzpunkt (lokal) oder allen Werten der Zeitreihe (global) vergleicht.
 
 Ein Teilfolge"=Ausreißer, sind aufeinanderfolgende Datenpunkte die, verglichen zu anderen Teilfolgen, auffällig anders sind. Dabei müssen die einzelnen Punkte nicht zwanghaft Punkt"=Ausreißer sein, sondern die Folge in ihrer Gänze muss auffällig sein. 
 
-Der für diese Arbeit relevante Typ ist der Zeitreihen"=Ausreißer. Bei diesem Typ ist das Verhalten einer kompletten Zeitreihe, verglichen zu anderen Zeitreihen, auffällig anders. In der Definition vom oben erwähnten Paper \cite{aauj2021} ist außerdem die Rede davon, dass die Zeitreihe eine multivariate sein muss, um Zeitreihen"=Ausreißer zu erkennen. Dies ist der Fall, da man nur Zeitreihen miteinander vergleichen kann, die gleichlang sind und es zu keinen logischen Ergebnissen kommt, wenn die Zeitreihen unterschiedliche Messintervalle haben. Diese Bedingung schließt allerdings nicht aus, mehrere \acs{UZR} mit gleicher Länge und gleichem Messintervall zu einer gemeinsamen \acs{MZR} zusammenzuführen. In Abb. \ref{fig:ZeitreihenAusreisserBeispiel} ist eine an \cite[Fig. 5]{aauj2021} angelehnte Abbildung zu finden, die mit Variable 4 ein Beispiel für einen Zeitreihen"=Ausreißer zeigt.
+Der für diese Arbeit relevante Typ ist der Zeitreihen"=Ausreißer. Bei diesem Typ ist das Verhalten einer kompletten Zeitreihe, verglichen zu anderen Zeitreihen, auffällig anders. In der Definition vom oben erwähnten Paper \cite{reviewOutlierDetection} ist außerdem die Rede davon, dass die Zeitreihe eine multivariate sein muss, um Zeitreihen"=Ausreißer zu erkennen. Dies ist der Fall, da man nur Zeitreihen miteinander vergleichen kann, die gleichlang sind und es zu keinen logischen Ergebnissen kommt, wenn die Zeitreihen unterschiedliche Messintervalle haben. Diese Bedingung schließt allerdings nicht aus, mehrere \acs{UZR} mit gleicher Länge und gleichem Messintervall zu einer gemeinsamen \acs{MZR} zusammenzuführen. In Abb. \ref{fig:ZeitreihenAusreisserBeispiel} ist eine an \cite[Fig. 5]{reviewOutlierDetection} angelehnte Abbildung zu finden, die mit Variable 4 ein Beispiel für einen Zeitreihen"=Ausreißer zeigt.
 \begin{figure}[bth] 
   \centering
   \includegraphics[width=0.7\textwidth]{Graphics/TimeSeriesOutlierExample.pdf}
@@ -15,7 +15,7 @@ Der für diese Arbeit relevante Typ ist der Zeitreihen"=Ausreißer. Bei diesem T
 \end{figure}
 
 \subsection{Ähnlichkeit}
-Ähnlichkeit oder genauer die Ähnlichkeitssuche wird in "`Billion-Scale Similarity Search with GPUs"' \cite[Ch. 2]{jmh2019} folgendermaßen beschrieben: Gegeben sei ein Beispielvektor $x \in \mathbb{R}^d$ und eine Ansammlung von Vektoren $[y_1,y_2,\ldots,y_n]$ mit $y_i \in \mathbb{R}^d$. Ziel ist es, die Menge $L$ mit den Indizes der $k$ Elemente aus der Ansammlung zu finden, die die kleinste euklidische Distanz $(L_2)$ zu $x$ haben. Die Menge $L$ kann also mit
+Ähnlichkeit oder genauer die Ähnlichkeitssuche wird in "`Billion-Scale Similarity Search with GPUs"' \cite[Ch. 2]{faissAehnlichkeitssuche} folgendermaßen beschrieben: Gegeben sei ein Beispielvektor $x \in \mathbb{R}^d$ und eine Ansammlung von Vektoren $[y_1,y_2,\ldots,y_n]$ mit $y_i \in \mathbb{R}^d$. Ziel ist es, die Menge $L$ mit den Indizes der $k$ Elemente aus der Ansammlung zu finden, die die kleinste euklidische Distanz $(L_2)$ zu $x$ haben. Die Menge $L$ kann also mit
 \[L= k \text{-}\argmin_{i=1,\ldots,n}\|x-y_i\|_2\]
 beschrieben werden. Dabei wird mittels $\|x-y_i\|_2$ die euklidische Distanz \\ $\|v\|_2 = (v_1^2+v_2^2+ \ldots +v_n^2)^{1/2}$ berechnet, und es werden mittels $k\text{-}\argmin_{i=1,\ldots,n}$ die $k$ Indizes der $k$ kleinsten enthaltenen Werte ausgewählt.
 
