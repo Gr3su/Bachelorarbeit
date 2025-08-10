@@ -34,7 +34,7 @@ def execCalcRuntime(func, *args):
     return result, end - start
 \end{lstlisting}
 
-Das Skript in \textit{DataPreparation.py}, auch zu sehen in \autoref{lst:dataPreparation}, ist dazu da, die Rohdaten für das Experiment vorzubereiten. Die Hauptfunktionalität ist dabei in \autoref{lst:dataPreparation} zu sehen, die Funktionen, die dort aufgerufen werden, befinden sich in derselben Datei, werden allerdings nicht näher beschrieben als in diesem Abschnitt.
+Das Skript in \textit{DataPreparation.py}, teils auch zu sehen in \autoref{lst:dataPreparation}, ist dazu da, die Rohdaten für das Experiment vorzubereiten. Die Hauptfunktionalität ist dabei in \autoref{lst:dataPreparation} zu sehen, die Funktionen, die dort aufgerufen werden, befinden sich in derselben Datei, werden allerdings nicht näher beschrieben als in diesem Abschnitt.
 
 Der erste Übergabeparameter des Skriptes ist der Ordner, an dem die originalen Dateien der Rohdaten liegen, typischerweise der Form \textit{DatenName/original}. Mithilfe dieses Pfades, werden die Pfade aller Dateien in \lstinline|full_paths| geladen, wobei in Zeile 3 nochmal geprüft wird, ob auch wirklich jeder Pfad eine Datei und nichts Sonstiges ist. Der Aufruf der Funktion \lstinline|readFiles(full_paths)| liest jede Datei ein, speichert sie in einem String und gibt diese Strings dann in einer Liste zurück. Mit dem zweiten Übergabeparameter kann übergeben werden, welche Daten eingelesen wurden. Dadurch wird die Funktion \lstinline|nvidiaData|, \lstinline|euWeatherData| oder \lstinline|ecg500| aufgerufen, die dann innerhalb von \lstinline|contents| die relevanten Daten herausfiltert und in \lstinline|full_paths| die neuen Dateipfade speichert. \lstinline|writeFiles(full_paths, contents)| schreibt dann die Inhalte in csv"=Dateien, typischerweise an die Stelle \textit{DatenName/original/.\,.\,/prepared/}.
 \begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:dataPreparation, style=Python]
@@ -51,4 +51,19 @@ if __name__ == "__main__":
         case 2:
             ecg500(contents, full_paths)
     writeFiles(full_paths, contents)
+\end{lstlisting}
+
+Das Skript in \textit{surveyExecution.py}, teils auch zu sehen in \autoref{lst:surveyExecution}, ist dazu da, die Daten aus dem übergebenem Pfad zu komprimieren und anschließend zu analysieren. In \autoref{lst:surveyExecution} ist lediglich der Aufruf der Kompressionsverfahren zu sehen. 
+
+Zu sehen ist, dass die Übergabeparameter von Index 2 bis 5 dazu da sind, die Parameter der Kompressionsverfahren zu setzen. Nicht zu sehen ist, dass der Übergabeparameter an Indexstelle 1 der Pfad zu dem \textit{Datenname/prepared} Ordner ist, aus dem die Daten für die Variable \lstinline|checkedTimeSeries| entnommen wird.
+\begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:surveyExecution, style=Python]
+linTS = comp.linearApproximation(checkedTimeSeries, int(sys.argv[2]))
+writeFiles(full_paths, "linearApprox", linTS)
+polTS = comp.polynomialApproximation(checkedTimeSeries, int(sys.argv[3]))
+writeFiles(full_paths, "polyApprox", polTS)
+dwtTS = comp.dwtApproximation(checkedTimeSeries, int(sys.argv[4]))
+writeFiles(full_paths, "waveletApprox", dwtTS)
+dftTS = comp.dftApproximation(checkedTimeSeries, float(sys.argv[5]) if len(sys.argv) == 6 else 10)
+writeFiles(full_paths, "fourierApprox", dftTS)
+results = ""
 \end{lstlisting}

@@ -1,0 +1,26 @@
+\section{Kompression und Analyse}
+Zur Kompression und Analyse sind gewisse Parameter einzustellen. Einerseits um unterschiedliche Kompressionsraten zu erzielen, andererseits um einen bestimmten Prozentsatz an Ausreißern zu erkennen oder um einen Schwellwert für die Ausreißererkennung festzulegen.
+
+Um die späteren Analysen auf verschieden stark komprimierten Daten zu testen, haben wir uns für drei Kompressionsraten entschieden. Gewählt wurden 50~\%, 25~\% und 10~\% der ursprünglichen Dateigröße. Die beiden größeren Zielgrößen orientieren sich an typischen Anwendungsfällen aus der Praxis, wohingegen die kleinste Zielgröße der Analyse eines Extremfalls dient. In \autoref{tbl:metrikenKompression} sieht man die Parameter der Kompressionsverfahren
+\begin{table}
+\caption{Metriken zur Kompression}
+ \centering
+  \begin{tabular}{ll|r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
+   \toprule
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{Rate}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\
+   \midrule
+   \multirow{3}{*}{Wetterdaten} & 0,5 & 15 & 32 & 3 & 15 \\
+   & 0,25 & 35 & 75 & 4 & 5 \\
+   & 0,1 & 95 & 200 & 6 & 2 \\
+   \midrule
+   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & 5 & 9 & 1 & 100 \\
+   & 0,25 & 9 & 20 & 2 & 30 \\
+   & 0,1 & 30 & 50 & 4 & 1 \\
+   \midrule
+   \multirow{3}{*}{ECG5000} & 0,5 & 7 & 15 & 2 & 50 \\
+   & 0,25 & 14 & 30 & 3 & 20 \\
+   & 0,1 & 35 & 100 & 4 & 8 \\
+   \bottomrule
+  \end{tabular}
+ \end{table}\label{tbl:metrikenKompression}
+ 
