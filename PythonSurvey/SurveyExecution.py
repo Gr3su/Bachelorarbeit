@@ -79,7 +79,10 @@ if __name__ == "__main__":
         detection = "knn"
         labels, time = execCalcRuntime(anom.knnDetection, data)
         results += f"knn Detection - Took {time}s to complete.\n"
-        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        try:
+            files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        except:
+            files = [os.path.splitext(os.path.basename(full_paths[i]))[0] for i in np.where(labels == 1)[0]]
         files = ", ".join([str(x) for x in files])
         
         if i == 0:
@@ -93,7 +96,10 @@ if __name__ == "__main__":
         detection = "iForest"
         labels, time = execCalcRuntime(anom.isolationForestDetection, data)
         results += f"iForest Detection - Took {time}s to complete.\n"
-        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        try:
+            files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        except:
+            files = [os.path.splitext(os.path.basename(full_paths[i]))[0] for i in np.where(labels == 1)[0]]
         files = ", ".join([str(x) for x in files])
 
         if i == 0:
@@ -107,7 +113,10 @@ if __name__ == "__main__":
         detection = "randomP"
         labels, time = execCalcRuntime(anom.randomProjectionsDetection, data)
         results += f"Random Projection Detection - Took {time}s to complete.\n"
-        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        try:
+            files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        except:
+            files = [os.path.splitext(os.path.basename(full_paths[i]))[0] for i in np.where(labels == 1)[0]]
         files = ", ".join([str(x) for x in files])
 
         if i == 0:
@@ -128,7 +137,10 @@ if __name__ == "__main__":
             labels, time = execCalcRuntime(sim.faissL2Search, data, chosenVector, k)
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
         results += f"Similarity Search with k={k} - Took {time}s to complete.\n"
-        files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        try:
+            files = sorted([int(os.path.splitext(os.path.basename(full_paths[i]))[0]) for i in np.where(labels == 1)[0]])
+        except:
+            files = [os.path.splitext(os.path.basename(full_paths[i]))[0] for i in np.where(labels == 1)[0]]
         files = ", ".join([str(x) for x in files])
 
         if i == 0:
