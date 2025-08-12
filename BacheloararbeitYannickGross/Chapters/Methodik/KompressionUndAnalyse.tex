@@ -1,13 +1,13 @@
 \section{Kompression und Analyse}
 Zur Kompression und Analyse sind gewisse Parameter einzustellen: einerseits um unterschiedliche Kompressionsraten zu erzielen, andererseits um einen bestimmten Prozentsatz an Ausreißern zu erkennen oder um einen Schwellwert für die Ausreißererkennung festzulegen.
 
-Um die späteren Analysen auf verschieden stark komprimierten Daten zu testen, haben wir uns für drei Kompressionsraten entschieden. Gewählt wurden 50~\%, 25~\% und 10~\% der ursprünglichen Dateigröße. Die beiden größeren Zielgrößen orientieren sich an typischen Anwendungsfällen aus der Praxis, wohingegen die kleinste Zielgröße der Analyse eines Extremfalls dient. In \autoref{tbl:metrikenKompression} sieht man die Parameter der Kompressionsverfahren
+Der im Folgenden verwendete Begriff der Kompressionsrate $\rho$ ist in \cite[Ch. 3.3]{compressionSurvey} als $\rho = \frac{s'}{s}$ definiert, wobei $s'$ die komprimierte Größe der Zeitreihe ist und $s$ die Größe der originalen Zeitreihe. Um die späteren Analysen auf verschieden stark komprimierten Daten zu testen, haben wir uns für drei Kompressionsraten entschieden. Gewählt wurden 50~\%, 25~\% und 10~\% der ursprünglichen Dateigröße. Die beiden größeren Zielgrößen orientieren sich an typischen Anwendungsfällen aus der Praxis, wohingegen die kleinste Zielgröße der Analyse eines Extremfalls dient. In \autoref{tbl:metrikenKompression} sieht man die Parameter der Kompressionsverfahren, die in ihrer aufgeführten Reihenfolge an das Skript aus \autoref{lst:surveyExecution} übergeben werden müssen, um die gewünschten Kompressionsraten zu erzielen.
 \begin{table}
 \caption{Metriken zur Kompression}
  \centering
   \begin{tabular}{ll|r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
-   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{Rate}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\
    \midrule
    \multirow{3}{*}{Wetterdaten} & 0,5 & 15 & 32 & 3 & 15 \\
    & 0,25 & 35 & 75 & 4 & 5 \\
@@ -23,4 +23,49 @@ Um die späteren Analysen auf verschieden stark komprimierten Daten zu testen, h
    \bottomrule
   \end{tabular}
  \end{table}\label{tbl:metrikenKompression}
- 
+
+Die tatsächliche Kompressionsrate einer Zeitreihe wurde anhand der Text"=Dateigröße in Bytes ermittelt. Vorteilhaft an dieser Herangehensweise ist, dass man den tatsächlichen Speicherverbrauch betrachtet, der in der Praxis der relevante Wert beim Komprimieren ist. Nachteilhaft ist allerdings, dass man nur begrenzt Rückschlüsse auf den Informationsgehalt der komprimierten Zeitreihe schließen kann. Damit ist gemeint, dass zwei Zeitreihen zwar gleich viele Werte haben können, sich ihr Platzbedarf jedoch unterscheidet: besitzen die Werte der einen Zeitreihe nur eine Nachkommastelle, so benötigt sie weniger Platz als eine Zeitreihe, deren Werte mit mindestens zehn Nachkommastellen gespeichert werden. 
+
+\begin{table}
+\caption{Anzahl der durchschnittlichen Double"=Werte}
+ \centering
+  \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
+   \toprule
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
+   \midrule
+   \multirow{3}{*}{Wetterdaten} & 0,5 & \multirow{3}{*}{997} & 134 & 128 & 125 & 75 \\
+   & 0,25 & & 58 & 56 & 63 & 25 \\
+   & 0,1 & & 22 & 20 & 16 & 10 \\
+   \midrule
+   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & \multirow{3}{*}{50} & 20 & 24 & 25 & 25 \\
+   & 0,25 & & 12 & 12 & 13 & 8 \\
+   & 0,1 & & 4 & 4 & 4 & 1 \\
+   \midrule
+   \multirow{3}{*}{ECG5000} & 0,5 & \multirow{3}{*}{140} & 40 & 40 & 35 & 35 \\
+   & 0,25 & & 20 & 20 & 18 & 14 \\
+   & 0,1 & & 35 & 75 & 4 & 5 \\
+   \bottomrule
+  \end{tabular}
+ \end{table}\label{tbl:kompressionsratenDoubleWerte}
+
+ \begin{table}
+\caption{Durchschnittliche Dateigröße in Bytes}
+ \centering
+  \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
+   \toprule
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
+   \midrule
+   \multirow{3}{*}{Wetterdaten} & 0,5 & \multirow{3}{*}{4543,46} & 2564,51 & 2641,21 & 2436,28 & 2628,58 \\
+   & 0,25 & & 1131,29 & 1181,45 & 1195,97 & 1051,80 \\
+   & 0,1 & & 426,90 & 427,04 & 310,20 & 575,01 \\
+   \midrule
+   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & \multirow{3}{*}{1103,08} & 444,67 & 540,14 & 553,83 & 517,64 \\
+   & 0,25 & & 266,87 & 273,03 & 286,98 & 247,20 \\
+   & 0,1 & & 88,23 & 91,14 & 86,33 & 138,47 \\
+   \midrule
+   \multirow{3}{*}{ECG5000} & 0,5 & \multirow{3}{*}{1702,24} & 817,91 & 877,27 & 650,81 & 848,42 \\
+   & 0,25 & & 404,60 & 440,21 & 361,83 & 480,08 \\
+   & 0,1 & & 162,76 & 176,12 & 178,29 & 169,01 \\
+   \bottomrule
+  \end{tabular}
+ \end{table}\label{tbl:kompressionsratenBytes}
