@@ -1,5 +1,5 @@
 \section{Nützliche Funktionen}
-Die Klasse \lstinline|MultivariateTimeSeries| in \textit{Utilities.py}, auch zu sehen in \autoref{lst:multivariateTimeSeries}, ist dazu da, eine \ac{MZR} abzuspeichern und zu validieren.
+Die Klasse \lstinline|MultivariateTimeSeries| in \texttt{Utilities.py}, auch zu sehen in \autoref{lst:multivariateTimeSeries}, ist dazu da, eine \ac{MZR} abzuspeichern und zu validieren.
 
 Die Methode \lstinline{__init__} ist der Konstruktor, der eine \ac{MZR} entgegennimmt und diese in den Zeilen 12 bis 15 auf die richtigen Datentypen validiert. In Zeile 17 wird das erste Element aus \lstinline|timeSeries| zur Liste \lstinline|multivariateTimeSeries| hinzugefügt und in Zeile 18 wird die Anzahl der Elemente von \lstinline|timeSeries[0]| in \lstinline|timeSeriesLength| abgespeichert. Mit der darauffolgenden \lstinline|for|-Schleife werden die restlichen Zeitreihen hinzugefügt. In \lstinline|addTimeSeries| werden die Zeitreihen der Liste \lstinline|multivariateTimeSeries| hinzugefügt, wenn sie eine \lstinline|list| oder \lstinline|numpy.ndarray| sind und wenn sie gleich viele Elemente haben, wie es \lstinline|timeSeriesLength| vorschreibt. 
 \begin{lstlisting}[caption=Klasse für \ac{MZR}, language=Python, label=lst:multivariateTimeSeries, style=Python]
@@ -25,7 +25,7 @@ class MultivariateTimeSeries:
             self.addTimeSeries(timeSeries[i])
 \end{lstlisting}
 
-Die Funktion \lstinline|execCalcRuntime| in \textit{Utilities.py}, auch zu sehen in \autoref{lst:zeitmessung}, ist dazu da, eine übergebene Funktion aufzurufen und dessen Laufzeit zu messen. Die Funktion gibt sowohl das Ergebnis der übergebenen Funktion, als auch das der Zeitmessung zurück.
+Die Funktion \lstinline|execCalcRuntime| in \texttt{Utilities.py}, auch zu sehen in \autoref{lst:zeitmessung}, ist dazu da, eine übergebene Funktion aufzurufen und dessen Laufzeit zu messen. Die Funktion gibt sowohl das Ergebnis der übergebenen Funktion, als auch das der Zeitmessung zurück.
 \begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:zeitmessung, style=Python]
 def execCalcRuntime(func, *args):
     start = perf_counter()
@@ -34,10 +34,10 @@ def execCalcRuntime(func, *args):
     return result, end - start
 \end{lstlisting}
 
-Das Skript in \textit{DataPreparation.py}, teils auch zu sehen in \autoref{lst:dataPreparation}, ist dazu da, die Rohdaten für das Experiment vorzubereiten. Die Hauptfunktionalität ist dabei in \autoref{lst:dataPreparation} zu sehen, die Funktionen, die dort aufgerufen werden, befinden sich in derselben Datei, werden allerdings nicht näher beschrieben als in diesem Abschnitt.
+Das Skript in \texttt{DataPreparation.py}, teils auch zu sehen in \autoref{lst:dataPreparation}, ist dazu da, die Rohdaten für das Experiment vorzubereiten. Die Hauptfunktionalität ist dabei in \autoref{lst:dataPreparation} zu sehen, die Funktionen, die dort aufgerufen werden, befinden sich in derselben Datei, werden allerdings nicht näher beschrieben als in diesem Abschnitt.
 
-Der erste Übergabeparameter des Skriptes ist der Ordner, an dem die originalen Dateien der Rohdaten liegen, typischerweise der Form \textit{DatenName/original}. Mithilfe dieses Pfades, werden die Pfade aller Dateien in \lstinline|full_paths| geladen, wobei in Zeile 3 nochmal geprüft wird, ob auch wirklich jeder Pfad eine Datei und nichts Sonstiges ist. Der Aufruf der Funktion \lstinline|readFiles(full_paths)| liest jede Datei ein, speichert sie in einem String und gibt diese Strings dann in einer Liste zurück. Mit dem zweiten Übergabeparameter kann übergeben werden, welche Daten eingelesen wurden. Dadurch wird die Funktion \lstinline|nvidiaData|, \lstinline|euWeatherData| oder \lstinline|ecg500| aufgerufen, die dann innerhalb von \lstinline|contents| die relevanten Daten herausfiltert und in \lstinline|full_paths| die neuen Dateipfade speichert. \lstinline|writeFiles(full_paths, contents)| schreibt dann die Inhalte in csv"=Dateien, typischerweise an die Stelle \textit{DatenName/original/.\,.\,/prepared/}.
-\begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:dataPreparation, style=Python]
+Der erste Übergabeparameter des Skriptes ist der Ordner, an dem die originalen Dateien der Rohdaten liegen, typischerweise der Form \texttt{DatenName/original}. Mithilfe dieses Pfades, werden die Pfade aller Dateien in \lstinline|full_paths| geladen, wobei in Zeile 3 nochmal geprüft wird, ob auch wirklich jeder Pfad eine Datei und nichts Sonstiges ist. Der Aufruf der Funktion \lstinline|readFiles(full_paths)| liest jede Datei ein, speichert sie in einem String und gibt diese Strings dann in einer Liste zurück. Mit dem zweiten Übergabeparameter kann übergeben werden, welche Daten eingelesen wurden. Dadurch wird die Funktion \lstinline|nvidiaData|, \lstinline|euWeatherData| oder \lstinline|ecg500| aufgerufen, die dann innerhalb von \lstinline|contents| die relevanten Daten herausfiltert und in \lstinline|full_paths| die neuen Dateipfade speichert. \lstinline|writeFiles(full_paths, contents)| schreibt dann die Inhalte in csv"=Dateien, typischerweise an die Stelle \texttt{DatenName/original/.\,.\,/prepared/}.
+\begin{lstlisting}[caption=Vorverarbeitung der Daten, language=Python, label=lst:dataPreparation, style=Python]
 if __name__ == "__main__":
     full_paths = [os.path.join(sys.argv[1], filename) for filename in os.listdir(sys.argv[1])]
     full_paths = [path for path in full_paths if os.path.isfile(path)]
@@ -53,10 +53,10 @@ if __name__ == "__main__":
     writeFiles(full_paths, contents)
 \end{lstlisting}
 
-Das Skript in \textit{surveyExecution.py}, teils auch zu sehen in \autoref{lst:surveyExecution}, ist dazu da, die Daten aus dem übergebenem Pfad zu komprimieren und anschließend zu analysieren. In \autoref{lst:surveyExecution} ist lediglich der Aufruf der Kompressionsverfahren zu sehen. 
+Das Skript in \texttt{surveyExecution.py}, teils auch zu sehen in \autoref{lst:surveyExecution}, ist dazu da, die Daten aus dem übergebenem Pfad zu komprimieren und anschließend zu analysieren. In \autoref{lst:surveyExecution} ist lediglich der Aufruf der Kompressionsverfahren zu sehen. 
 
-Zu sehen ist, dass die Übergabeparameter von Index 2 bis 5 dazu da sind, die Parameter der Kompressionsverfahren zu setzen. Nicht zu sehen ist, dass der Übergabeparameter an Indexstelle 1 der Pfad zu dem \textit{DatenName/prepared} Ordner ist, aus dem die Daten für die Variable \lstinline|checkedTimeSeries| entnommen werden. Ein Aufruf des Skripts folgt also dem Schema \lstinline|python surveyExecution.py DatenName/prepared segmentLength segmentLength iterations keepPercentile|. Wobei \lstinline|segmentLength| die Größe der Segmente für die lineare und polynomielle Approximation ist, \lstinline|iterations| die Anzahl der Iterationen für die diskrete wavelet Transformation und \lstinline|keepPercentile| das oberste Perzentil an Frequenzanteilen, das von der Fourier Transformation behalten werden sollen.
-\begin{lstlisting}[caption=Funktion zur Zeitmessung, language=Python, label=lst:surveyExecution, style=Python]
+Zu sehen ist, dass die Übergabeparameter von Index 2 bis 5 dazu da sind, die Parameter der Kompressionsverfahren zu setzen. Nicht zu sehen ist, dass der Übergabeparameter an Indexstelle 1 der Pfad zu dem \texttt{DatenName/prepared} Ordner ist, aus dem die Daten für die Variable \lstinline|checkedTimeSeries| entnommen werden. Ein Aufruf des Skripts folgt also dem Schema \lstinline|python surveyExecution.py DatenName/prepared segmentLength segmentLength iterations keepPercentile|. Wobei \lstinline|segmentLength| die Größe der Segmente für die lineare und polynomielle Approximation ist, \lstinline|iterations| die Anzahl der Iterationen für die diskrete wavelet Transformation und \lstinline|keepPercentile| das oberste Perzentil an Frequenzanteilen, das von der Fourier Transformation behalten werden sollen.
+\begin{lstlisting}[caption=Skript zur Ausführung des Experiments, language=Python, label=lst:surveyExecution, style=Python]
 linTS = comp.linearApproximation(checkedTimeSeries, int(sys.argv[2]))
 writeFiles(full_paths, "linearApprox", linTS)
 polTS = comp.polynomialApproximation(checkedTimeSeries, int(sys.argv[3]))

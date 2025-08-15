@@ -3,69 +3,76 @@ Zur Kompression und Analyse sind gewisse Parameter einzustellen: einerseits um u
 
 Der im Folgenden verwendete Begriff der Kompressionsrate $\rho$ ist in \cite[Ch. 3.3]{compressionSurvey} als $\rho = \frac{s'}{s}$ definiert, wobei $s'$ die komprimierte Größe der Zeitreihe ist und $s$ die Größe der originalen Zeitreihe. Um die späteren Analysen auf verschieden stark komprimierten Daten zu testen, haben wir uns für drei Kompressionsraten entschieden. Gewählt wurden 50~\%, 25~\% und 10~\% der ursprünglichen Dateigröße. Die beiden größeren Zielgrößen orientieren sich an typischen Anwendungsfällen aus der Praxis, wohingegen die kleinste Zielgröße der Analyse eines Extremfalls dient. In \autoref{tbl:metrikenKompression} sieht man die Parameter der Kompressionsverfahren, die in ihrer aufgeführten Reihenfolge an das Skript aus \autoref{lst:surveyExecution} übergeben werden müssen, um die gewünschten Kompressionsraten zu erzielen.
 \begin{table}
-\caption{Metriken zur Kompression}
  \centering
   \begin{tabular}{ll|r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
    \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,5 & 15 & 32 & 3 & 15 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & 15 & 32 & 3 & 15 \\
    & 0,25 & 35 & 75 & 4 & 5 \\
-   & 0,1 & 95 & 200 & 6 & 2 \\
+   & 0,10 & 95 & 200 & 6 & 2 \\
    \midrule
-   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & 5 & 9 & 1 & 100 \\
+   \multirow{3}{*}{Nvidia-Aktie} & 0,50 & 5 & 9 & 1 & 100 \\
    & 0,25 & 9 & 20 & 2 & 30 \\
-   & 0,1 & 30 & 50 & 4 & 1 \\
+   & 0,10 & 30 & 50 & 4 & 1 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,5 & 7 & 15 & 2 & 50 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & 7 & 15 & 2 & 50 \\
    & 0,25 & 14 & 30 & 3 & 20 \\
-   & 0,1 & 35 & 100 & 4 & 8 \\
+   & 0,10 & 35 & 100 & 4 & 8 \\
    \bottomrule
   \end{tabular}
- \end{table}\label{tbl:metrikenKompression}
+\caption{Parameter zur Kompression}
+\label{tbl:metrikenKompression}
+ \end{table}
 
 Die tatsächliche Kompressionsrate einer Zeitreihe wurde anhand der Text"=Dateigröße in Bytes ermittelt. Vorteilhaft an dieser Herangehensweise ist, dass man den tatsächlichen Speicherverbrauch betrachtet, der in der Praxis der relevante Wert beim Komprimieren ist. Nachteilhaft ist allerdings, dass man nur begrenzt Rückschlüsse auf den Informationsgehalt der komprimierten Zeitreihe schließen kann. Damit ist gemeint, dass zwei Zeitreihen zwar gleich viele Werte haben können, sich ihr Platzbedarf jedoch unterscheidet: besitzen die Werte der einen Zeitreihe nur eine Nachkommastelle, so benötigt sie weniger Platz als eine Zeitreihe, deren Werte mit mindestens zehn Nachkommastellen gespeichert werden. 
 
+Während in der \autoref{tbl:kompressionsratenBytes} die Dateigrößen in Bytes einer Zeitreihe zu finden sind, sind in \autoref{tbl:kompressionsratenDoubleWerte} die Anzahl der Double"=Werte in einer Zeitreihe zu finden. Die Double"=Werte sind dazu da den Informationsgehalt der Zeitreihen zu bewerten und Rückschlüsse darauf ziehen zu können, wie viel Platz eine Zeitreihe in Form eines Arrays verbrauchen würde. Die Werte in \autoref{tbl:kompressionsratenBytes} und \autoref{tbl:kompressionsratenDoubleWerte} sind über alle Zeitreihen einer Kategorie (Original, Linear"=approximiert, \dots) gemittelt und gerundet. In \autoref{tbl:kompressionsratenBytes} fällt auf, dass bei der Auswahl der Parameter zur Kompression, sich nach der Wavelet"=Transformation gerichtet wurde. Damit ist gemeint dass, zum Beispiel die Wetterdaten mit $\rho=0,50$, etwas größer als 50~\% der Originalgröße sind, denn wenn man \autoref{tbl:metrikenKompression} und \autoref{tbl:kompressionsratenBytes} vergleicht, so reicht nur eine Iteration mehr bei der Wavelet"=Transformation, um die Dateigröße der Wetterdaten erneut zu halbieren. Und um die Dateigrößen unter den verschiedenen Verfahren nah beieinander zu halten, wurde zwar versucht die Kompressionsrate zu erreichen, aber gleichzeitig keine großen Abweichungen von der Größe der Kompression mit der Wavelet"=Transformation zu haben. 
+
 \begin{table}
-\caption{Anzahl der durchschnittlichen Double"=Werte}
  \centering
   \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
    \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,5 & \multirow{3}{*}{997} & 134 & 128 & 125 & 75 \\
-   & 0,25 & & 58 & 56 & 63 & 25 \\
-   & 0,1 & & 22 & 20 & 16 & 10 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{1000} & 134 & 128 & 125 & 310 \\
+   & 0,25 & & 58 & 56 & 63 & 141 \\
+   & 0,10 & & 22 & 20 & 16 & 89 \\
    \midrule
-   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & \multirow{3}{*}{50} & 20 & 24 & 25 & 25 \\
-   & 0,25 & & 12 & 12 & 13 & 8 \\
-   & 0,1 & & 4 & 4 & 4 & 1 \\
+   \multirow{3}{*}{Nvidia-Aktie} & 0,50 & \multirow{3}{*}{50} & 20 & 24 & 25 & 25 \\
+   & 0,25 & & 12 & 12 & 13 & 25 \\
+   & 0,10 & & 4 & 4 & 4 & 25 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,5 & \multirow{3}{*}{140} & 40 & 40 & 35 & 35 \\
-   & 0,25 & & 20 & 20 & 18 & 14 \\
-   & 0,1 & & 35 & 75 & 4 & 5 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{140} & 40 & 40 & 35 & 70 \\
+   & 0,25 & & 20 & 20 & 18 & 56 \\
+   & 0,10 & & 8 & 8 & 9 & 17 \\
    \bottomrule
   \end{tabular}
- \end{table}\label{tbl:kompressionsratenDoubleWerte}
+\caption{Anzahl der durchschnittlichen Double"=Werte}
+\label{tbl:kompressionsratenDoubleWerte}
+ \end{table}
 
  \begin{table}
-\caption{Durchschnittliche Dateigröße in Bytes}
  \centering
   \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
    \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,5 & \multirow{3}{*}{4543,46} & 2564,51 & 2641,21 & 2436,28 & 2628,58 \\
-   & 0,25 & & 1131,29 & 1181,45 & 1195,97 & 1051,80 \\
-   & 0,1 & & 426,90 & 427,04 & 310,20 & 575,01 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{4543} & 2565 & 2641 & 2436 & 2629 \\
+   & 0,25 & & 1131 & 1181 & 1196 & 1052 \\
+   & 0,10 & & 427 & 427 & 310 & 575 \\
    \midrule
-   \multirow{3}{*}{Nvidia-Aktie} & 0,5 & \multirow{3}{*}{1103,08} & 444,67 & 540,14 & 553,83 & 517,64 \\
-   & 0,25 & & 266,87 & 273,03 & 286,98 & 247,20 \\
-   & 0,1 & & 88,23 & 91,14 & 86,33 & 138,47 \\
+   \multirow{3}{*}{Nvidia-Aktie} & 0,50 & \multirow{3}{*}{1103} & 445 & 540 & 554 & 518 \\
+   & 0,25 & & 267 & 273 & 287 & 247 \\
+   & 0,10 & & 88 & 91 & 86 & 138 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,5 & \multirow{3}{*}{1702,24} & 817,91 & 877,27 & 650,81 & 848,42 \\
-   & 0,25 & & 404,60 & 440,21 & 361,83 & 480,08 \\
-   & 0,1 & & 162,76 & 176,12 & 178,29 & 169,01 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{1702} & 818 & 877 & 651 & 848 \\
+   & 0,25 & & 405 & 440 & 362 & 480 \\
+   & 0,10 & & 163 & 176 & 178 & 169 \\
    \bottomrule
   \end{tabular}
- \end{table}\label{tbl:kompressionsratenBytes}
+\caption{Durchschnittliche Dateigröße in Bytes}
+\label{tbl:kompressionsratenBytes}
+ \end{table}
+
+Bei den Analyseverfahren wurden keine eigenen Parameter gesetzt, sondern die Standardwerte der jeweiligen Funktionen 
