@@ -1,4 +1,5 @@
 \section{Verfahren zur Ausreißererkennung}
+
 %\subsection{k"=Next"=Neighbors}
 
 \subsection{Isolation Forest}
@@ -23,12 +24,12 @@ Das rekursive Partitionieren lässt sich auch als Baum darstellen, wobei dann di
     \item beim zufällig ausgewählten Feature, "`alle Werte der Elemente in $X$  identisch sind"'.
 \end{itemize}
 (vergleiche \cite[Ch. 2]{iForest}, aus dem Englischen übersetzt) \\
-Etwa 100 Bäume genügen \cite[Ch. 4.1]{iForest}, um keine signifikanten Unterschiede mehr in der durchschnittlichen Pfadlänge zwischen Wurzel und einem Knoten zu erhalten. Um dann einen zwischen Wurzel und einem Knoten zu erhalten. Um dann einen Ausreißer"=Score zu erhalten wird folgende Formel angewandt:
+Etwa 100 Bäume genügen \cite[Ch. 4.1]{iForest}, um keine signifikanten Unterschiede mehr in der durchschnittlichen Pfadlänge zwischen Wurzel und einem Knoten zu erhalten. Um dann einen zwischen Wurzel und einem Knoten zu erhalten. Um dann einen Ausreißer"=Score zu erhalten, wird folgende Formel angewandt:
 \[ s(x,n)=2^{-\frac{E(h(x))}{c(n)}}, \]
 wobei $|X|=n$, $c(n)=2H(n-1)-(2(n-1)/n)$, $H(i)=\ln(i) + 0,5772156649$ (Euler"=Mascheroni"=Konstante), $h(x)$ ist die Pfadlänge eines Knotens $x$ in einem Baum, also die Kantenanzahl von Wurzel bis zu diesem Knoten und $E(h(x))$ ist die durchschnittliche Kantenanzahl über alle Bäume. Diese Formel normalisiert die durchschnittliche Höhe und garantiert damit, dass wir immer $0 < s \le 1$ erhalten, für egal welches $n$ und $x$. Mit $s$ kann man nun drei Einschätzungen vornehmen:
 \begin{itemize}
     \item "`ist das $s$ eines Knoten nah an 1, dann ist es definitiv ein Ausreißer"',
-    \item "`ist das $s$ eines Knoten weit unter 0,5, dann kann man mit Sicherheit sagen, dass es ein normaler [Datenpunkt] ist',
-    \item "`geben alle Datenpunkte $s \approx 0,5$ zurück, dann gibt es keine auffälligen Ausreißer"'.
+    \item "`ist das $s$ eines Knoten weit unter 0,5, dann kann man mit Sicherheit sagen, dass es ein normaler [Datenpunkt] ist"',
+    \item "`geben alle [Datenpunkte] $s \approx 0,5$ zurück, dann gibt es keine auffälligen Ausreißer"'.
 \end{itemize}
 (vergleiche \cite[Ch. 2]{iForest}, aus dem Englischen übersetzt) \\
