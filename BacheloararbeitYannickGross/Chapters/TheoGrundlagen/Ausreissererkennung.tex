@@ -1,6 +1,10 @@
 \section{Verfahren zur Ausreißererkennung}
+Verfahren zur Ausreißererkennung bewerten die übergebenen Daten mithilfe eines Ausreißer"=Scores, der ihre Wahrscheinlichkeit bewertet, ein Ausreißer zu sein. Die Verfahren in den ersten zwei Abschnitten können von diesem Score allerdings nicht direkt ableiten, ob ein Datenpunkt ein Ausreißer ist oder nicht, sondern sie geben einen festgelegten Prozentsatz zurück, der Datenpunkte, die am schlechtesten abschneiden. Im dritten und letzten Abschnitt wird dann ein Verfahren präsentiert, das selber einen Schwellwert festlegt, ab dem es einen Punkt als Ausreißer markiert, das kann auch dazu führen, dass keine Ausreißer gefunden werden, nicht wie bei den ersten beiden Verfahren.
 
-%\subsection{k"=Next"=Neighbors}
+\subsection{k"=Nearest"=Neighbors}
+Das k"=Nearest"=Neighbors oder knn Verfahren zur Ausreißererkennung von Sridhar Ramaswamy et al. \cite{knn}, erkennt Ausreißer dadurch, dass sie eine größere Distanz zu anderen Punkten besitzen. Um die Distanz zu berechnen wird in der verwendeten Bibliothek PyOD \cite{pyod} die Minkowski"=Distanz \cite{minkowski} benutzt, die zwischen zwei Punkten $x = (x_0,x_1,\ldots,x_{n-1})$ und $y=(y_0,y_1,\ldots,y_{n-1})$ die Distanz $d(x,y)$ wie folgt berechnet:
+\[d(x,y) = \left(\sum_{i=0}^{n-1}|x_i - y_i|^p\right)^{\frac{1}{p}}.\]
+Der Parameter $p$ wird von PyOD standardmäßig auf 2 gesetzt, wodurch wir einen Spezialfall der Minkowski"=Distanz erhalten, und zwar die Euklidische"=Distanz, die auch beim Maß der Ähnlichkeit in \autoref{subsec:aehnlichkeit} benutzt wird. Was knn nun macht ist, dass es von allen Punkten, die Abstände zu allen anderen Punkten berechnet und für jeweiligen Punkt speichert. Daraufhin merkt es sich nur die $k$"=Stück die am nächsten sind und setzt den Ausreißer"=Score auf die Distanz des am weitesten entfernt, unter den $k$"=Stück. Punkte mit einem hohen Ausreißer"=Score, haben weniger Punkte, die dicht an ihnen dran sind und sind somit offensichtlich Ausreißer. PyOD setzt außerdem standardmäßig den Wert $k=5$. Upmanu Lall und Ashish Sharma \cite{kauswahl}, sowie Shichao Zhang et al. \cite{kauswahl2} nutzen ebenfalls diesen Wert, versuchen allerdings möglichst effizient ein optimales $k$ für einen gegebenen Datensatz zu finden. Da $k=5$ de facto ein etablierter Standardwert ist und genauere Analysen über die Auswirkung des Parameters umfangreich sind \cite{kauswahl2} und nicht zentral für diese Arbeit, da es nicht um die Optimierung des Algorithmus, sondern um die Auswirkungen der Kompression geht, wird er in der Implementierung nicht geändert.
 
 \subsection{Isolation Forest}
 Das Isolation Forest oder iForest Verfahren zur Ausreißererkennung von Fei Tony Liu et al. \cite{iForest}, erkennt Ausreißer dadurch, dass sie leichter von anderen zu isolieren sind. Isolieren bedeutet hierbei das Abgrenzen eines Punktes von Anderen. Ausreißer sind leichter abzugrenzen, da sie zwei Eigenschaften besitzen:
@@ -32,4 +36,7 @@ wobei $|X|=n$, $c(n)=2H(n-1)-(2(n-1)/n)$, $H(i)=\ln(i) + 0,5772156649$ (Euler"=M
     \item "`ist das $s$ eines Knoten weit unter 0,5, dann kann man mit Sicherheit sagen, dass es ein normaler [Datenpunkt] ist"',
     \item "`geben alle [Datenpunkte] $s \approx 0,5$ zurück, dann gibt es keine auffälligen Ausreißer"'.
 \end{itemize}
-(vergleiche \cite[Ch. 2]{iForest}, aus dem Englischen übersetzt) \\
+(vergleiche \cite[Ch. 2]{iForest}, aus dem Englischen übersetzt)
+
+\subsection{Random Projections mit Median"=Absolute"=Deviation}
+Dieses Verfahren orientiert sich stark an dem von Paula Navarro-Esteban und Juan Antonio Cuesta-Albertos \cite{randomProjection}. Es beruht auf der Idee, dass man multivariate Daten auf mehrere ein-dimensionale Werte projiziert und je Projektion eine univariate Ausreißererkennung anwendet.
