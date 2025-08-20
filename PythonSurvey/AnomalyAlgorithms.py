@@ -23,7 +23,7 @@ def isolationForestDetection(multivariateTimeSeries : mts):
 def randomProjectionsDetection(multivariateTimeSeries : mts):
     scores = np.zeros(len(multivariateTimeSeries.multivariateTimeSeries))
 
-    for i in range(100):
+    for i in range(50):
         randomVector = np.abs(np.random.randn(multivariateTimeSeries.timeSeriesLength))
         values = []
         for series in multivariateTimeSeries.multivariateTimeSeries:
