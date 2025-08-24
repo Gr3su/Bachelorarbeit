@@ -1,71 +1,184 @@
 \section{Ergebnisse}
-\begin{table}
- \centering
-  \begin{tabular}{ccc|r<{\hspace{1mm}}r<{\hspace{1mm}}r<{\hspace{1mm}}r<{\hspace{1mm}}r<{\hspace{1mm}}r<{\hspace{1mm}}}
-   \toprule
-   \multicolumn{1}{c}{\textbf{\boldmath$\rho$}} & \multicolumn{1}{c}{\textbf{Kompressionsverf.}} & \multicolumn{1}{c|}{\textbf{Analyseverf.}} & \multicolumn{1}{c}{\textbf{TP}} & \multicolumn{1}{c}{\textbf{TN}} & \multicolumn{1}{c}{\textbf{FP}} & \multicolumn{1}{c}{\textbf{FN}} & \multicolumn{1}{c}{\textbf{ACC}} & \multicolumn{1}{c}{\textbf{PREC}}\\ 
-   \midrule
-   \multirow{4}{*}{0,50} & \multirow{4}{*}{Linear} & knn & 33 & 435 & 18 & 17 & 0,93 & 0,64 \\
-   & & iForest &  16 & 417 & 35 & 35 & 0,86 & 0,31\\
-   & & Random Projection & 53 & 420 & 0 & 30 & 0,94 & 1,00 \\
-   & & Ähnlichkeitssuche & 83 & 386 & 17 & 17 & 0,93 & 0,83 \\
-   \midrule
-   \multirow{4}{*}{0,50} & \multirow{4}{*}{Polynomiell} & knn & 18 & 420 & 33 & 32 & 0,87 & 0,35 \\
-   & & iForest &  14 & 415 & 37 & 37 & 0,85 & 0,27 \\
-   & & Random Projection & 0 & 418 & 2 & 83 & 0,83 & 0,00 \\
-   & & Ähnlichkeitssuche & 56 & 359 & 44 & 44 & 0,82 & 0,56 \\
-   \midrule
-   \multirow{4}{*}{0,50} & \multirow{4}{*}{Wavelet} & knn & 36 & 438 & 15 & 14 & 0,94 & 0,71 \\
-   & & iForest &  20 & 421 & 31 & 31 & 0,88 & 0,39 \\
-   & & Random Projection & 56 & 420 & 0 & 27 & 0,95 & 1,00 \\
-   & & Ähnlichkeitssuche & 86 & 389 & 14 & 14 & 0,94 & 0,86 \\
-   \midrule
-   \multirow{4}{*}{0,50} & \multirow{4}{*}{Fourier} & knn & 28 & 430 & 23 & 22 & 0,91 & 0,55 \\
-   & & iForest &  13 & 414 & 38 & 38 & 0,84 & 0,25\\
-   & & Random Projection & 19 & 403 & 17 & 64 & 0,83 & 0,53\\
-   & & Ähnlichkeitssuche & 25 & 328 & 75 & 75 & 0,70 & 0,25\\
-   \midrule
-   \multirow{4}{*}{0,25} & \multirow{4}{*}{Linear} & knn & 31 & 433 & 20 & 19 & 0,92 & 0,61 \\
-   & & iForest & 17 & 418 & 34 & 34 & 0,86 & 0,33 \\
-   & & Random Projection & 24 & 425 & 0 & 54 & 0,89 & 1,00 \\
-   & & Ähnlichkeitssuche & 75 & 378 & 25 & 25 & 0,90 & 0,75 \\
-   \midrule
-   \multirow{4}{*}{0,25} & \multirow{4}{*}{Polynomiell} & knn & 12 & 414 & 39 & 38 & 0,85 & 0,24 \\
-   & & iForest & 12 & 413 & 39 & 39 & 0,84 & 0,24 \\
-   & & Random Projection & 0 & 423 & 2 & 78 & 0,84 & 0,00 \\
-   & & Ähnlichkeitssuche & 40 & 343 & 60 & 60 & 0,76 & 0,40 \\
-   \midrule
-   \multirow{4}{*}{0,25} & \multirow{4}{*}{Wavelet} & knn & 34 & 436 & 17 & 16 & 0,93 & 0,67 \\
-   & & iForest & 21 & 422 & 30 & 30 & 0,88 & 0,41 \\
-   & & Random Projection & 36 & 424 & 1 & 42 & 0,91 & 0,97 \\
-   & & Ähnlichkeitssuche & 83 & 386 & 17 & 17 & 0,93 & 0,83 \\
-   \midrule
-   \multirow{4}{*}{0,25} & \multirow{4}{*}{Fourier} & knn & 29 & 431 & 22 & 21 & 0,91 & 0,57 \\
-   & & iForest & 12 & 413 & 39 & 39 & 0,84 & 0,24 \\
-   & & Random Projection & 7 & 419 & 6 & 71 & 0,85 & 0,54 \\
-   & & Ähnlichkeitssuche & 21 & 324 & 79 & 79 & 0,69 & 0,21 \\
-   \midrule
-   \multirow{4}{*}{0,10} & \multirow{4}{*}{Linear} & knn & 30 & 432 & 21 & 20 & 0,92 & 0,59 \\
-   & & iForest & 12 & 413 & 39 & 39 & 0,84 & 0,23 \\
-   & & Random Projection & 8 & 428 & 0 & 67 & 0,87 & 1,00 \\
-   & & Ähnlichkeitssuche & 72 & 375 & 28 & 28 & 0,89 & 0,72 \\
-   \midrule
-   \multirow{4}{*}{0,10} & \multirow{4}{*}{Polynomiell} & knn & 10 & 412 & 41 & 40 & 0,84 & 0,20 \\
-   & & iForest & 12 & 413 & 39 & 39 & 0,84 & 0,24 \\
-   & & Random Projection & 1 & 418 & 10 & 74 & 0,83 & 0,09 \\
-   & & Ähnlichkeitssuche & 36 & 339 & 64 & 64 & 0,75 & 0,36 \\
-   \midrule
-   \multirow{4}{*}{0,10} & \multirow{4}{*}{Wavelet} & knn & 31 & 433 & 20 & 19 & 0,92 & 0,61 \\
-   & & iForest & 18 & 419 & 33 & 33 & 0,87 & 0,35 \\
-   & & Random Projection & 21 & 428 & 0 & 54 & 0,89 & 1,00 \\
-   & & Ähnlichkeitssuche & 80 & 383 & 20 & 20 & 0,92 & 0,80 \\
-   \midrule
-   \multirow{4}{*}{0,10} & \multirow{4}{*}{Fourier} & knn & 21 & 423 & 30 & 29 & 0,88 & 0,41 \\
-   & & iForest & 10 & 411 & 41 & 41 & 0,84 & 0,20 \\
-   & & Random Projection & 2 & 428 & 0 & 73 & 0,85 & 1,00 \\
-   & & Ähnlichkeitssuche & 23 & 326 & 77 & 77 & 0,69 & 0,23 \\
-   \bottomrule
-  \end{tabular}
-\caption{Ergebnisse des ECG5000 Datensatzes}
-\label{tbl:ergebnisseECG}
+% Lineare Kompression
+ \begin{table}[p]
+  \centering
+  \begin{datatabular}
+   \datarowfirst{0,50}{Wetterdaten}{knn} \datarowright{27} {271} {4} {3} {0,98} {0,87}
+   \datarownext{iForest} \datarowright{26} {269} {5} {5} {0,97} {0,84}
+   \datarownext{Random Projection} \datarowright{38} {266} {1} {0} {1,00} {0,97}
+   \datarownext{Ähnlichkeitssuche} \datarowright{96} {201} {4} {4} {0,97} {0,96}
+   \datarowfirst{0,50}{Nvidia-Aktie}{knn} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{iForest} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{Random Projection} \datarowright{34} {96} {1} {1} {0,98} {0,97}
+   \datarownext{Ähnlichkeitssuche} \datarowright{100} {32} {0} {0} {1,00} {1,00}
+   \datarowfirst{0,50}{ECG5000}{knn} \datarowright{33} {435} {18} {17} {0,93} {0,65}
+   \datarownext{iForest} \datarowright{20} {421} {31} {31} {0,88} {0,39}
+   \datarownext{Random Projection} \datarowright{58} {428} {2} {15} {0,97} {0,97}
+   \datarownext{Ähnlichkeitssuche} \datarowright{86} {389} {14} {14} {0,94} {0,86}
+   %
+   \datarowfirst{0,25}{Wetterdaten}{knn} \datarowright{25} {269} {6} {5} {0,96} {0,81}
+   \datarownext{iForest} \datarowright{26} {269} {5} {5} {0,97} {0,84}
+   \datarownext{Random Projection} \datarowright{38} {266} {1} {0} {1,00} {0,97}
+   \datarownext{Ähnlichkeitssuche} \datarowright{97} {202} {3} {3} {0,98} {0,97}
+   \datarowfirst{0,25}{Nvidia-Aktie}{knn} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{iForest} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{Random Projection} \datarowright{31} {95} {6} {0} {0,95} {0,84}
+   \datarownext{Ähnlichkeitssuche} \datarowright{98} {30} {2} {2} {0,97} {0,98}
+   \datarowfirst{0,25}{ECG5000}{knn} \datarowright{31} {433} {20} {19} {0,92} {0,61}
+   \datarownext{iForest} \datarowright{11} {412} {40} {40} {0,84} {0,22}
+   \datarownext{Random Projection} \datarowright{29} {425} {0} {49} {0,90} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{62} {365} {38} {38} {0,85} {0,62}
+   %
+   \datarowfirst{0,10}{Wetterdaten}{knn} \datarowright{22} {266} {9} {8} {0,94} {0,71}
+   \datarownext{iForest} \datarowright{24} {267} {7} {7} {0,95} {0,77}
+   \datarownext{Random Projection} \datarowright{38} {267} {0} {0} {1,00} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{84} {189} {16} {16} {0,90} {0,84}
+   \datarowfirst{0,10}{Nvidia-Aktie}{knn} \datarowright{12} {116} {2} {2} {0,97} {0,86}
+   \datarownext{iForest} \datarowright{12} {116} {2} {2} {0,97} {0,86}
+   \datarownext{Random Projection} \datarowright{31} {93} {4} {4} {0,94} {0,89}
+   \datarownext{Ähnlichkeitssuche} \datarowright{99} {31} {1} {1} {0,98} {0,99}
+   \datarowfirst{0,10}{ECG5000}{knn} \datarowright{30} {432} {21} {20} {0,92} {0,59}
+   \datarownext{iForest} \datarowright{12} {413} {39} {39} {0,84} {0,24}
+   \datarownext{Random Projection} \datarowright{8} {419} {0} {76} {0,85} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{69} {372} {31} {31} {0,88} {0,69}
+  \end{datatabular}
+  \caption{Kompressionsverfahren: Linear}\label{tab:datakomplin}
+ \end{table}
+
+ % Polynomielle Kompression
+ \begin{table}[p]
+  \centering
+  \begin{datatabular}
+   \datarowfirst{0,50}{Wetterdaten}{knn} \datarowright{27} {271} {4} {3} {0,98} {0,87}
+   \datarownext{iForest} \datarowright{25} {268} {6} {6} {0,96} {0,81}
+   \datarownext{Random Projection} \datarowright{38} {259} {8} {0} {0,97} {0,83}
+   \datarownext{Ähnlichkeitssuche} \datarowright{89} {194} {11} {11} {0,93} {0,89}
+   \datarowfirst{0,50}{Nvidia-Aktie}{knn} \datarowright{12} {116} {2} {2} {0,97} {0,86}
+   \datarownext{iForest} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{Random Projection} \datarowright{35} {90} {7} {0} {0,95} {0,83}
+   \datarownext{Ähnlichkeitssuche} \datarowright{97} {29} {3} {3} {0,95} {0,97}
+   \datarowfirst{0,50}{ECG5000}{knn} \datarowright{18} {420} {33} {32} {0,87} {0,35}
+   \datarownext{iForest} \datarowright{9} {410} {42} {42} {0,83} {0,18}
+   \datarownext{Random Projection} \datarowright{0} {428} {2} {73} {0,85} {0,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{66} {369} {34} {34} {0,86} {0,66}
+   %
+   \datarowfirst{0,25}{Wetterdaten}{knn} \datarowright{22} {267} {8} {8} {0,95} {0,73}
+   \datarownext{iForest} \datarowright{23} {266} {8} {8} {0,95} {0,74}
+   \datarownext{Random Projection} \datarowright{37} {267} {0} {1} {1,00} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{88} {193} {12} {12} {0,92} {0,88}
+   \datarowfirst{0,25}{Nvidia-Aktie}{knn} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{iForest} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{Random Projection} \datarowright{31} {94} {7} {0} {0,95} {0,82}
+   \datarownext{Ähnlichkeitssuche} \datarowright{98} {30} {2} {2} {0,97} {0,98}
+   \datarowfirst{0,25}{ECG5000}{knn} \datarowright{12} {414} {39} {38} {0,85} {0,24}
+   \datarownext{iForest} \datarowright{6} {407} {45} {45} {0,82} {0,12}
+   \datarownext{Random Projection} \datarowright{0} {423} {2} {78} {0,84} {0,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{47} {350} {53} {53} {0,79} {0,47}
+   %
+   \datarowfirst{0,10}{Wetterdaten}{knn} \datarowright{21} {266} {9} {9} {0,94} {0,70}
+   \datarownext{iForest} \datarowright{22} {265} {9} {9} {0,94} {0,71}
+   \datarownext{Random Projection} \datarowright{38} {241} {26} {0} {0,91} {0,59}
+   \datarownext{Ähnlichkeitssuche} \datarowright{81} {186} {19} {19} {0,88} {0,81}
+   \datarowfirst{0,10}{Nvidia-Aktie}{knn} \datarowright{10} {114} {4} {4} {0,94} {0,71}
+   \datarownext{iForest} \datarowright{11} {115} {3} {3} {0,95} {0,79}
+   \datarownext{Random Projection} \datarowright{33} {92} {5} {2} {0,95} {0,87}
+   \datarownext{Ähnlichkeitssuche} \datarowright{96} {28} {4} {4} {0,94} {0,96}
+   \datarowfirst{0,10}{ECG5000}{knn} \datarowright{10} {412} {41} {40} {0,84} {0,20}
+   \datarownext{iForest} \datarowright{12} {413} {39} {39} {0,84} {0,24}
+   \datarownext{Random Projection} \datarowright{1} {404} {15} {83} {0,81} {0,06}
+   \datarownext{Ähnlichkeitssuche} \datarowright{47} {350} {53} {53} {0,79} {0,47}
+  \end{datatabular}
+  \caption{Kompressionsverfahren: Polynomiell}\label{tab:datakomppol}
+ \end{table}
+
+ % Wavelet Kompression
+ \begin{table}[p]
+  \centering
+  \begin{datatabular}
+   \datarowfirst{0,50}{Wetterdaten}{knn} \datarowright{25} {269} {6} {5} {0,96} {0,81}
+   \datarownext{iForest} \datarowright{26} {269} {5} {5} {0,97} {0,84}
+   \datarownext{Random Projection} \datarowright{38} {267} {0} {0} {1,00} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{92} {197} {8} {8} {0,95} {0,92}
+   \datarowfirst{0,50}{Nvidia-Aktie}{knn} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{iForest} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{Random Projection} \datarowright{32} {95} {2} {3} {0,96} {0,94}
+   \datarownext{Ähnlichkeitssuche} \datarowright{100} {32} {0} {0} {1,00} {1,00}
+   \datarowfirst{0,50}{ECG5000}{knn} \datarowright{36} {438} {15} {14} {0,94} {0,71}
+   \datarownext{iForest} \datarowright{13} {414} {38} {38} {0,85} {0,25}
+   \datarownext{Random Projection} \datarowright{49} {430} {0} {24} {0,95} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{93} {396} {7} {7} {0,97} {0,93}
+   %
+   \datarowfirst{0,25}{Wetterdaten}{knn} \datarowright{24} {268} {7} {6} {0,96} {0,77}
+   \datarownext{iForest} \datarowright{26} {269} {5} {5} {0,97} {0,84}
+   \datarownext{Random Projection} \datarowright{38} {267} {0} {0} {1,00} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{93} {198} {7} {7} {0,95} {0,93}
+   \datarowfirst{0,25}{Nvidia-Aktie}{knn} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{iForest} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{Random Projection} \datarowright{31} {97} {4} {0} {0,97} {0,89}
+   \datarownext{Ähnlichkeitssuche} \datarowright{99} {31} {1} {1} {0,98} {0,99}
+   \datarowfirst{0,25}{ECG5000}{knn} \datarowright{34} {436} {17} {16} {0,93} {0,67}
+   \datarownext{iForest} \datarowright{23} {424} {28} {28} {0,89} {0,45}
+   \datarownext{Random Projection} \datarowright{52} {424} {1} {26} {0,95} {0,98}
+   \datarownext{Ähnlichkeitssuche} \datarowright{84} {387} {16} {16} {0,94} {0,84}
+   %
+   \datarowfirst{0,10}{Wetterdaten}{knn} \datarowright{19} {263} {12} {11} {0,92} {0,61}
+   \datarownext{iForest} \datarowright{23} {267} {7} {8} {0,95} {0,77}
+   \datarownext{Random Projection} \datarowright{38} {267} {0} {0} {1,00} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{87} {192} {13} {13} {0,91} {0,87}
+   \datarowfirst{0,10}{Nvidia-Aktie}{knn} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{iForest} \datarowright{12} {116} {2} {2} {0,97} {0,86}
+   \datarownext{Random Projection} \datarowright{33} {92} {5} {2} {0,95} {0,87}
+   \datarownext{Ähnlichkeitssuche} \datarowright{97} {29} {3} {3} {0,95} {0,97}
+   \datarowfirst{0,10}{ECG5000}{knn} \datarowright{31} {433} {20} {19} {0,92} {0,61}
+   \datarownext{iForest} \datarowright{21} {422} {30} {30} {0,88} {0,41}
+   \datarownext{Random Projection} \datarowright{22} {419} {0} {62} {0,88} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{70} {373} {30} {30} {0,88} {0,70}
+  \end{datatabular}
+  \caption{Kompressionsverfahren: Wavelet}\label{tab:datakompwav}
+ \end{table}
+
+ % Fourier Kompression
+ \begin{table}[p]
+  \centering
+  \begin{datatabular}
+   \datarowfirst{0,50}{Wetterdaten}{knn} \datarowright{24} {268} {7} {6} {0,96} {0,77}
+   \datarownext{iForest} \datarowright{17} {260} {14} {14} {0,91} {0,55}
+   \datarownext{Random Projection} \datarowright{0} {267} {0} {38} {0,88} {0,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{90} {195} {10} {10} {0,93} {0,90}
+   \datarowfirst{0,50}{Nvidia-Aktie}{knn} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{iForest} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{Random Projection} \datarowright{35} {88} {9} {0} {0,93} {0,80}
+   \datarownext{Ähnlichkeitssuche} \datarowright{100} {32} {0} {0} {1,00} {1,00}
+   \datarowfirst{0,50}{ECG5000}{knn} \datarowright{28} {430} {23} {22} {0,91} {0,55}
+   \datarownext{iForest} \datarowright{11} {412} {40} {40} {0,84} {0,22}
+   \datarownext{Random Projection} \datarowright{15} {416} {14} {58} {0,86} {0,52}
+   \datarownext{Ähnlichkeitssuche} \datarowright{29} {332} {71} {71} {0,72} {0,29}
+   %
+   \datarowfirst{0,25}{Wetterdaten}{knn} \datarowright{23} {267} {8} {7} {0,95} {0,74}
+   \datarownext{iForest} \datarowright{18} {261} {13} {13} {0,91} {0,58}
+   \datarownext{Random Projection} \datarowright{1} {267} {0} {37} {0,88} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{81} {186} {19} {19} {0,88} {0,81}
+   \datarowfirst{0,25}{Nvidia-Aktie}{knn} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{iForest} \datarowright{13} {117} {1} {1} {0,98} {0,93}
+   \datarownext{Random Projection} \datarowright{31} {89} {12} {0} {0,91} {0,72}
+   \datarownext{Ähnlichkeitssuche} \datarowright{100} {32} {0} {0} {1,00} {1,00}
+   \datarowfirst{0,25}{ECG5000}{knn} \datarowright{29} {431} {22} {21} {0,91} {0,57}
+   \datarownext{iForest} \datarowright{11} {412} {40} {40} {0,84} {0,22}
+   \datarownext{Random Projection} \datarowright{6} {424} {1} {72} {0,85} {0,86}
+   \datarownext{Ähnlichkeitssuche} \datarowright{21} {324} {79} {79} {0,69} {0,21}
+   %
+   \datarowfirst{0,10}{Wetterdaten}{knn} \datarowright{22} {267} {8} {8} {0,95} {0,73}
+   \datarownext{iForest} \datarowright{15} {258} {16} {16} {0,90} {0,48}
+   \datarownext{Random Projection} \datarowright{16} {267} {0} {22} {0,93} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{85} {190} {15} {15} {0,90} {0,85}
+   \datarowfirst{0,10}{Nvidia-Aktie}{knn} \datarowright{14} {118} {0} {0} {1,00} {1,00}
+   \datarownext{iForest} \datarowright{7} {111} {7} {7} {0,89} {0,50}
+   \datarownext{Random Projection} \datarowright{35} {87} {10} {0} {0,92} {0,78}
+   \datarownext{Ähnlichkeitssuche} \datarowright{100} {32} {0} {0} {1,00} {1,00}
+   \datarowfirst{0,10}{ECG5000}{knn} \datarowright{21} {423} {30} {29} {0,88} {0,41}
+   \datarownext{iForest} \datarowright{7} {408} {44} {44} {0,83} {0,14}
+   \datarownext{Random Projection} \datarowright{1} {419} {0} {83} {0,83} {1,00}
+   \datarownext{Ähnlichkeitssuche} \datarowright{21} {324} {79} {79} {0,69} {0,21}
+  \end{datatabular}
+  \caption{Kompressionsverfahren: Fourier}\label{tab:datakompfour}
  \end{table}

@@ -283,3 +283,17 @@ belowcaptionskip=1\baselineskip,
 
 \usepackage{tikz}
 \renewcommand{\rho}{\varrho}
+\newenvironment{datatabular}{%
+ \begin{tabular}{cll|cccccc}%
+ \toprule%
+ \boldmath $\rho$ & \multicolumn{1}{c}{\bfseries Datensatz} & \multicolumn{1}{c|}{\bfseries Analyseverf.} & \bfseries TP & \bfseries TN & \bfseries FP & \bfseries FN & \bfseries Acc. & \bfseries Prec. \\%
+}{%
+ \bottomrule%
+ \end{tabular}%
+}
+\newcommand{\datarowfirst}[3]{%
+ \midrule%
+ \multirow{4}{*}{#1} & \multirow{4}{*}{#2} & #3 &%
+}
+\newcommand{\datarownext}[1]{& & #1 &}
+\newcommand{\datarowright}[6]{\phantom{000}\llap{#1} & \phantom{000}\llap{#2} & \phantom{000}\llap{#3} & \phantom{000}\llap{#4} & #5 & #6 \\}
