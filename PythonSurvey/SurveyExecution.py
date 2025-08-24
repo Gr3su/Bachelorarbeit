@@ -90,7 +90,8 @@ if __name__ == "__main__":
             results += files + "\n"
         else:
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
-            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
+            results += f"{{{tp}}} {{{tn}}} {{{fp}}} {{{fn}}} {{{(tn + tp) / (tn + tp + fn + fp):.2f}}} {{{tp/(tp+fp) if tp +fp != 0 else 0.00:.2f}}}\n"
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\nAccuracy: {(tn + tp) / (tn + tp + fn + fp)}\nPrecision: {tp/(tp+fp) if tp +fp != 0 else 0}\n{files}\n\n\n"
 
         # iForest
         detection = "iForest"
@@ -107,7 +108,8 @@ if __name__ == "__main__":
             results += files + "\n"
         else:
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
-            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
+            results += f"{{{tp}}} {{{tn}}} {{{fp}}} {{{fn}}} {{{(tn + tp) / (tn + tp + fn + fp):.2f}}} {{{tp/(tp+fp) if tp +fp != 0 else 0.00:.2f}}}\n"
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\nAccuracy: {(tn + tp) / (tn + tp + fn + fp)}\nPrecision: {tp/(tp+fp) if tp +fp != 0 else 0}\n{files}\n\n\n"
 
         # Random Projection
         detection = "randomP"
@@ -124,7 +126,8 @@ if __name__ == "__main__":
             results += files + "\n"
         else:
             tp, tn, fp, fn = computeClassificationMetrics(originalResults[detection], labels)
-            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n"
+            results += f"{{{tp}}} {{{tn}}} {{{fp}}} {{{fn}}} {{{(tn + tp) / (tn + tp + fn + fp):.2f}}} {{{tp/(tp+fp) if tp +fp != 0 else 0.00:.2f}}}\n"
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\nAccuracy: {(tn + tp) / (tn + tp + fn + fp)}\nPrecision: {tp/(tp+fp) if tp +fp != 0 else 0}\n{files}\n\n\n"
         
         # Similarity Search
         detection = "similarity"
@@ -146,7 +149,8 @@ if __name__ == "__main__":
         if i == 0:
             results += files + "\n\n\n"
         else:
-            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\n{files}\n\n\n"
+            results += f"{{{tp}}} {{{tn}}} {{{fp}}} {{{fn}}} {{{(tn + tp) / (tn + tp + fn + fp):.2f}}} {{{tp/(tp+fp) if tp +fp != 0 else 0.00:.2f}}}\n"
+            results += f"True positive: {tp}\nTrue negative: {tn}\nFalse positive:{fp}\nFalse negative: {fn}\nAccuracy: {(tn + tp) / (tn + tp + fn + fp)}\nPrecision: {tp/(tp+fp) if tp +fp != 0 else 0}\n{files}\n\n\n"
         
     results = results.strip()
 
