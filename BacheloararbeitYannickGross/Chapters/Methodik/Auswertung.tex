@@ -1,4 +1,4 @@
-\section{Auswertung}
+\section{Auswertung}\label{sec:auswertung}
 \newcommand{\tikztextc}[3]{\node at (#1, #2) {\vphantom{/}\smash{#3}};}
 \newcommand{\tikztextupc}[3]{\node at (#1, #2) [rotate = 90] {\vphantom{/}\smash{#3}};}
 \definecolor{myRed}{RGB}{255, 119, 94}
@@ -9,7 +9,8 @@ Zur Auswertung wie gut ein Analyseverfahren abschnitt, wurden zwei Klassifizieru
     \item die Anzahl der Zeitreihen, die in den originalen und komprimierten Zeitreihen als Nicht"=Ausreißer / Nicht"=Nachbar erkannt wurden, zählen zu richtig negativ (engl. \textit{\textbf{T}rue \textbf{N}egative}),
     \item die Anzahl der Zeitreihen, die in den originalen aber nicht in den komprimierten Zeitreihen als Nicht"=Ausreißer / Nicht"=Nachbar erkannt wurden, zählen zu falsch negativ (engl. \textit{\textbf{F}alse \textbf{N}egative}).
 \end{enumerate} 
-Aus diesen vier Werten können nun mehrere Metriken berechnet werden, wobei für uns nur Präzision (engl. \textit{\textbf{Prec}ision}) und Genauigkeit (engl. \textit{\textbf{Acc}uracy}) von Bedeutung sind. Die Präzision berechnet sich mit der Formel \[Prec = \frac{TP}{TP + FP}\]
+Aus diesen vier Werten können nun mehrere Metriken berechnet werden, wobei für uns nur Präzision (engl. \textit{\textbf{Prec}ision}) und Sensitivität (engl. \textit{\textbf{Rec}all}) von Bedeutung sind. Die Präzision berechnet sich mit der Formel: \[Prec = \frac{TP}{TP + FP}\]
+und beschreibt in unserem Fall, wie viele der als Ausreißer erkannten Punkte tatsächlich Ausreißer sind. Die Sensitivität berechnet sich mit der Formel \[Rec = \frac{TP}{TP + FN}\] und beschreibt in unserem Fall, wie viele der tatsächlichen Ausreißer erkannt wurden.
 \begin{figure}
 \centering
  \begin{tikzpicture}[x = 3mm, y = 3mm]   % das hier verändern zum Skalieren

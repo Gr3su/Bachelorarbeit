@@ -16,9 +16,25 @@ Diese Herangehensweise ist für unser Experiment allerdings nicht geeignet. Denn
   \label{fig:PolynomeVerschiedeneGrade}
 \end{figure}
 
+Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:RekonstruktionPoly} ein Beispiel einer rekonstruierten Zeitreihe zu finden, die mit einer Segmentlänge von 100 stückweise polynomiell komprimiert wurde.
+\begin{figure}[bth] 
+  \centering
+  \includegraphics[width=0.7\textwidth]{Graphics/RekonstruktionPoly.pdf}
+  \caption{Rekonstruktion einer stückweisen komprimierten approximierten Zeitreihe}
+  \label{fig:RekonstruktionPoly}
+\end{figure}
+
 \subsection{Stückweise lineare Approximation}
 Die stückweise lineare Approximation stellt einen Spezialfall der stückweisen polynomiellen Approximation dar, bei dem ausschließlich Polynome ersten Grades (also lineare Funktionen) zur Approximation der Segmente verwendet werden.
 Durch die Beschränkung auf Grad 1 ergibt sich eine einfachere Funktionsform sowie geringerer Rechenaufwand, jedoch unter Umständen auch eine schlechtere Approximation komplexer Verläufe im Vergleich zu höhergradigen polynomiellen Approximationen.
+
+Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:RekonstruktionLinear} ein Beispiel einer rekonstruierten Zeitreihe zu finden, die mit einer Segmentlänge von 100 stückweise linear komprimiert wurde.
+\begin{figure}[bth] 
+  \centering
+  \includegraphics[width=0.7\textwidth]{Graphics/RekonstruktionLinear.pdf}
+  \caption{Rekonstruktion einer stückweisen linear komprimierten Zeitreihe}
+  \label{fig:RekonstruktionLinear}
+\end{figure}
 
 \subsection{Diskrete Fourier-Transformation}
 Die \ac{DFT} ist ein mathematisches Verfahren zur Zerlegung einer endlichen, diskreten Zeitreihe in ihre Frequenzteile. Das heißt für eine gegebene Zeitreihe $[(t_0,x_0),(t_1,x_1),\ldots,(t_{n-1},x_{n-1})]$ gibt \acs{DFT} eine neue Liste, mit den Frequenzen von 0 bis $n-1$, zurück. Für diese Transformation ist folgende Formel definiert:
@@ -43,6 +59,8 @@ In \autoref{fig:dftEinzelneFrequenzen} sieht man nun die drei ursprünglichen Fr
 \end{figure}
 
 Zum besseren Verständnis der am Anfang genannten Formel wird in diesem Abschnitt nun näher auf die Mathematik dahinter eingegangen. In der Formel handelt es sich wegen der imaginären Einheit $i$ um komplexe Zahlen. Diese bestehen aus einem Realteil $a$ und einem Imaginärteil $b$, also in der Form $a + ib$. Sie können allerdings auch als Punkt in einer zweidimensionalen Ebene interpretiert werden, dann liegt der Realteil typischerweise auf der x-Achse und der Imaginärteil auf der y-Achse. Außerdem gibt es die Exponentialform $a+ib=re^{i\varphi}$, wobei $r$ der Abstand vom Ursprung zum Punkt $(a,b)$ ist und $\varphi$ der Winkel, den diese Strecke mit der positiven x-Achse einschließt. $r$ wird auch Betrag genannt und wird folgendermaßen berechnet: $r=\sqrt{a^2+b^2}$. Setzt man nun $r=1$ und lässt $\varphi$ von 0 bis $2\pi$ laufen, erhält man einen Einheitskreis. Unterteilt man diesen Kreis jetzt in $n$ gleich große Abschnitte ein, so kann man mit $e^{i\frac{2\pi k}{n}}$ über $n$ diskrete Punkte iterieren, wobei $k$ eine natürliche Zahl von 0 bis $n-1$ ist. Auffallen dürfte an dieser Stelle, dass dieser Term dem aus der obigen Summenformel entspricht. Setzt man also nun, entsprechend unseres Beispiels in \autoref{fig:dftKomplettBeispiel}, $n=12$, so erhält man einen Einheitskreis, der mit dem in \autoref{fig:komplexerEinheitskreis} übereinstimmt. Diese 12 Punkte werden dann mittels des restlichen Terms der \acs{DFT}, mit den Datenpunkten gewichtet.
+
+Für die Abschätzung der Laufzeit ergibt sich, dass für jedes Element der Zeitreihe, also $n$"=mal, die Summenformel von 0 bis $n-1$ berechnet werden muss, und somit die Laufzeit in $O(n^2)$ liegt, was zu langsam für große Zeitreihen ist. Die Fast Fourier"=Transformation löst dieses Problem, indem es einen Algorithmus implementiert, der die Werte der \acs{DFT} effizienter berechnet. Die Laufzeit liegt dann nur noch in $O(n\log n)$, übertragen auf Sortieralgorithmen wäre das ein Wechsel von Bubblesort zu MergeSort. Auf die Implementierung der Fast Fourier"=Transformation wird in dieser Arbeit nicht weiter eingegangen, da es lediglich eine Optimierung der \acs{DFT} ist und diese nicht relevant zum Verständnis des Inhalts ist.
 \begin{figure}[bth] 
   \centering
   \includegraphics[width=0.7\textwidth]{Graphics/KomplexerEinheitskreis.pdf}
@@ -50,5 +68,21 @@ Zum besseren Verständnis der am Anfang genannten Formel wird in diesem Abschnit
   \label{fig:komplexerEinheitskreis}
 \end{figure}
 
+Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:RekonstruktionFourier} ein Beispiel einer rekonstruierten Zeitreihe zu finden, die mit der Fast"=Fourier Transformation komprimiert wurde, indem nur die 10\% der Frequenz gespeichert wurden, die den größten Betrag zum Signal beitragen.
+\begin{figure}[bth] 
+  \centering
+  \includegraphics[width=0.7\textwidth]{Graphics/RekonstruktionFourier.pdf}
+  \caption{Rekonstruktion einer mit Fast"=Fourier Transformation komprimierten Zeitreihe}
+  \label{fig:RekonstruktionFourier}
+\end{figure}
+
 \subsection{Diskrete Wavelet"=Transformation}
 \blindtext
+
+Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:RekonstruktionWavelet} ein Beispiel einer rekonstruierten Zeitreihe zu finden, die mit vier Iterationen der diskreten Wavelet"=Transformation komprimiert wurde.
+\begin{figure}[bth] 
+  \centering
+  \includegraphics[width=0.7\textwidth]{Graphics/RekonstruktionFourier.pdf}
+  \caption{Rekonstruktion einer mit diskreter Wavelet"=Transformation komprimierten Zeitreihe}
+  \label{fig:RekonstruktionWavelet}
+\end{figure}
