@@ -2,6 +2,39 @@
 Die Zusammenfassung der Ergebnisse ist in vier Tabellen aufgeteilt. Die Aufteilung geschah entsprechend der Kompressionsverfahren, bedeutet eine Tabelle enthält die Ergebnisse aller drei Kompressionsraten, aufgeteilt in die drei Datensätze und in die vier Analyseverfahren. Die ersten vier Werte entsprechen richtig positiv, richtig negativ, falsch positiv und falsch negativ, während die letzten beiden Werte für Sensitivität und Präzision stehen (siehe \autoref{sec:auswertung} für Bedeutungen und Abkürzungen).
 
 In einem ersten Blick fällt auf, dass die Analyseverfahren zu einem großen Teil gut abschnitten. Dass bedeutet, dass in den meisten Fällen die Sensitivität über 0,70 lag und somit über 70\% der Ausreißer noch erkannt wurden, egal welches Kompressionsverfahren und "=rate. Bei genauerer Betrachtung fallen einem allerdings auch äußerste schlechte Fälle auf, wie in \autoref{tab:datakompfour} bei $\rho=0,50$ Wetterdaten Random Projection, bei dem die Sensitivität und Präzision bei 0,00 liegt und somit kein einziger tatsächlicher Ausreißer erkannt wurde. Genau so gibt es aber auch äußerst positive Fälle, wie in \autoref{tab:datakompfour} bei $\rho=0,50$ NVIDIA-Aktie, bei dem egal welches Analyseverfahren 100\% der ursprünglichen Datenpunkte erkannt hat und lediglich die Random Projection fälschlicherweise noch neun weitere Ausreißer erkannt und somit die Präzision bei 80\% liegt.
+
+\begin{figure}[bth]
+  \subfloat[Wetterdaten]{\includegraphics[width=0.49\textwidth]{Graphics/F1LinearWetter.pdf}\label{subfig:f1linwetter}}\hfill
+  \subfloat[NVIDIA]{\includegraphics[width=0.49\textwidth]{Graphics/F1LinearNvidia.pdf}\label{subfig:f1linnvidia}}\hfill
+  \centering\subfloat[ECG5000]{\includegraphics[width=0.49\textwidth]{Graphics/F1LinearECG.pdf}\label{subfig:f1linecg}}
+  \caption{F1"=Scores der Analyseverfahren bei linearer Kompression}
+  \label{fig:f1LinScores}
+\end{figure}
+
+\begin{figure}[bth]
+  \subfloat[Wetterdaten]{\includegraphics[width=0.49\textwidth]{Graphics/F1PolyWetter.pdf}\label{subfig:f1polwetter}}\hfill
+  \subfloat[NVIDIA]{\includegraphics[width=0.49\textwidth]{Graphics/F1PolyNvidia.pdf}\label{subfig:f1polnvidia}}\hfill
+  \centering\subfloat[ECG5000]{\includegraphics[width=0.49\textwidth]{Graphics/F1PolyECG.pdf}\label{subfig:f1polecg}}
+  \caption{F1"=Scores der Analyseverfahren bei polynomieller Kompression}
+  \label{fig:f1PolScores}
+\end{figure}
+
+\begin{figure}[bth]
+  \subfloat[Wetterdaten]{\includegraphics[width=0.49\textwidth]{Graphics/F1FourierWetter.pdf}\label{subfig:f1fourierwetter}}\hfill
+  \subfloat[NVIDIA]{\includegraphics[width=0.49\textwidth]{Graphics/F1FourierNvidia.pdf}\label{subfig:f1fouriernvidia}}\hfill
+  \centering\subfloat[ECG5000]{\includegraphics[width=0.49\textwidth]{Graphics/F1FourierECG.pdf}\label{subfig:f1fourierecg}}
+  \caption{F1"=Scores der Analyseverfahren bei Fourier Kompression}
+  \label{fig:f1FourScores}
+\end{figure}
+
+\begin{figure}[bth]
+  \subfloat[Wetterdaten]{\includegraphics[width=0.49\textwidth]{Graphics/F1WaveletWetter.pdf}\label{subfig:f1waveletwetter}}\hfill
+  \subfloat[NVIDIA]{\includegraphics[width=0.49\textwidth]{Graphics/F1WaveletNvidia.pdf}\label{subfig:f1waveletnvidia}}\hfill
+  \centering\subfloat[ECG5000]{\includegraphics[width=0.49\textwidth]{Graphics/F1WaveletECG.pdf}\label{subfig:f1waveletecg}}
+  \caption{F1"=Scores der Analyseverfahren bei Wavelet Kompression}
+  \label{fig:f1WaveletScores}
+\end{figure}
+
 % Lineare Kompression
  \begin{table}[p]
   \centering
