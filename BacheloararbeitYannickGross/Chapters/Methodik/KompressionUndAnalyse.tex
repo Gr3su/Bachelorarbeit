@@ -6,19 +6,19 @@ Der im Folgenden verwendete Begriff der Kompressionsrate $\rho$ ist in \cite[Ch.
  \centering
   \begin{tabular}{ll|r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
-   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Fourier}} & \multicolumn{1}{c}{\textbf{Wavelet}} \\
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,50 & 15 & 32 & 3 & 15 \\
-   & 0,25 & 35 & 75 & 4 & 5 \\
-   & 0,10 & 95 & 200 & 6 & 2 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & 15 & 32 & 15 & 3 \\
+   & 0,25 & 35 & 75 & 5 & 4 \\
+   & 0,10 & 95 & 200 & 2 & 6 \\
    \midrule
-   \multirow{3}{*}{NVIDIA-Aktie} & 0,50 & 5 & 9 & 1 & 100 \\
-   & 0,25 & 9 & 20 & 2 & 30 \\
-   & 0,10 & 30 & 50 & 4 & 1 \\
+   \multirow{3}{*}{NVIDIA-Aktie} & 0,50 & 5 & 9 & 100 & 1 \\
+   & 0,25 & 9 & 20 & 30 & 2 \\
+   & 0,10 & 30 & 50 & 1 & 4 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,50 & 7 & 15 & 2 & 50 \\
-   & 0,25 & 14 & 30 & 3 & 20 \\
-   & 0,10 & 35 & 100 & 4 & 8 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & 7 & 15 & 50 & 2 \\
+   & 0,25 & 14 & 30 & 20 & 3 \\
+   & 0,10 & 35 & 100 & 8 & 4 \\
    \bottomrule
   \end{tabular}
 \caption{Parameter zur Kompression}
@@ -27,25 +27,25 @@ Der im Folgenden verwendete Begriff der Kompressionsrate $\rho$ ist in \cite[Ch.
 
 Die tatsächliche Kompressionsrate einer Zeitreihe wurde anhand der Text"=Dateigröße in Bytes ermittelt. Vorteilhaft an dieser Herangehensweise ist, dass man den tatsächlichen Speicherverbrauch betrachtet, der in der Praxis der relevante Wert beim Komprimieren ist. Nachteilhaft ist allerdings, dass man nur begrenzt Rückschlüsse auf den Informationsgehalt der komprimierten Zeitreihe schließen kann. Damit ist gemeint, dass zwei Zeitreihen zwar gleich viele Werte haben können, sich ihr Platzbedarf jedoch unterscheidet: besitzen die Werte der einen Zeitreihe nur eine Nachkommastelle, so benötigt sie weniger Platz als eine Zeitreihe, deren Werte mit mindestens zehn Nachkommastellen gespeichert werden. 
 
-Während in der \autoref{tbl:kompressionsratenBytes} die Dateigrößen in Bytes einer Zeitreihe zu finden sind, sind in \autoref{tbl:kompressionsratenDoubleWerte} die Anzahl der Double"=Werte in einer Zeitreihe zu finden. Die Double"=Werte sind dazu da den Informationsgehalt der Zeitreihen zu bewerten und Rückschlüsse darauf ziehen zu können, wie viel Platz eine Zeitreihe in Form eines Arrays verbrauchen würde. Die Werte in \autoref{tbl:kompressionsratenBytes} und \autoref{tbl:kompressionsratenDoubleWerte} sind über alle Zeitreihen einer Kategorie (Original, Linear"=approximiert, \dots) gemittelt und gerundet. In \autoref{tbl:kompressionsratenBytes} fällt auf, dass bei der Auswahl der Parameter zur Kompression, sich nach der Wavelet"=Transformation gerichtet wurde. Damit ist gemeint dass, zum Beispiel die Wetterdaten mit $\rho=0,50$, etwas größer als 50\% der Originalgröße sind, denn wenn man \autoref{tbl:metrikenKompression} und \autoref{tbl:kompressionsratenBytes} vergleicht, so reicht nur eine Iteration mehr bei der Wavelet"=Transformation, um die Dateigröße der Wetterdaten erneut zu halbieren. Und um die Dateigrößen unter den verschiedenen Verfahren nah beieinander zu halten, wurde zwar versucht die Kompressionsrate zu erreichen, aber gleichzeitig keine großen Abweichungen von der Größe der Kompression mit der Wavelet"=Transformation zu haben. 
+Während in der \autoref{tbl:kompressionsratenBytes} die Dateigrößen einer Zeitreihe in Bytes zu finden sind, sind in \autoref{tbl:kompressionsratenDoubleWerte} die Anzahl der Double"=Werte einer Zeitreihe zu finden. Die Double"=Werte sind dazu da den Informationsgehalt der Zeitreihen zu bewerten und Rückschlüsse darauf ziehen zu können, wie viel Platz eine Zeitreihe in Form eines Arrays verbrauchen würde. Die Werte in \autoref{tbl:kompressionsratenBytes} und \autoref{tbl:kompressionsratenDoubleWerte} sind über alle Zeitreihen einer Kategorie (Original, Linear"=approximiert, \dots) gemittelt und gerundet. In \autoref{tbl:kompressionsratenBytes} fällt auf, dass mit der Wavelet"=Transformation nicht immer exakt die Kompressionsraten erreicht werden konnten. Das hängt damit zusammen, dass die Anzahl der Werte immer nur halbiert werden kann und somit keine beliebigen Kompressionsraten realisierbar sind. Aus demselben Grund, aus dem wir die Anzahl der Double"=Werte angeben, entspricht eine Halbierung der Double"=Werte nicht zwangsläufig einer Halbierung der Text-Dateigröße. Bei den anderen Kompressionsverfahren wurde versucht zwei Bedingungen bestmöglich zu erfüllen, und zwar dass die eigentliche Kompressionsrate erreicht wird und man gleichzeitig nicht allzu weit weg von der tatsächlichen Kompressionsrate der Wavelet"=Transformation ist.
 
 \begin{table}
  \centering
   \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
-   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Fourier}} & \multicolumn{1}{c}{\textbf{Wavelet}} \\ 
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{1000} & 134 & 128 & 125 & 310 \\
-   & 0,25 & & 58 & 56 & 63 & 141 \\
-   & 0,10 & & 22 & 20 & 16 & 89 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{1000} & 134 & 128 & 310 & 125 \\
+   & 0,25 & & 58 & 56 & 141 & 63 \\
+   & 0,10 & & 22 & 20 & 89 & 16 \\
    \midrule
    \multirow{3}{*}{NVIDIA-Aktie} & 0,50 & \multirow{3}{*}{50} & 20 & 24 & 25 & 25 \\
-   & 0,25 & & 12 & 12 & 13 & 25 \\
-   & 0,10 & & 4 & 4 & 4 & 25 \\
+   & 0,25 & & 12 & 12 & 25 & 13 \\
+   & 0,10 & & 4 & 4 & 25 & 4 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{140} & 40 & 40 & 35 & 70 \\
-   & 0,25 & & 20 & 20 & 18 & 56 \\
-   & 0,10 & & 8 & 8 & 9 & 17 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{140} & 40 & 40 & 70 & 35 \\
+   & 0,25 & & 20 & 20 & 56 & 18 \\
+   & 0,10 & & 8 & 8 & 17 & 9 \\
    \bottomrule
   \end{tabular}
 \caption{Anzahl der durchschnittlichen Double"=Werte}
@@ -56,23 +56,23 @@ Während in der \autoref{tbl:kompressionsratenBytes} die Dateigrößen in Bytes 
  \centering
   \begin{tabular}{ll|r<{\hspace{4mm}}r<{\hspace{3mm}}r<{\hspace{8mm}}r<{\hspace{5mm}}r<{\hspace{4mm}}}
    \toprule
-   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Wavelet}} & \multicolumn{1}{c}{\textbf{Fourier}} \\ 
+   \multicolumn{1}{c}{\textbf{Daten}} & \multicolumn{1}{c|}{\textbf{$\rho$}} & \multicolumn{1}{c}{\textbf{Original}} & \multicolumn{1}{c}{\textbf{Linear}} & \multicolumn{1}{c}{\textbf{Polynomiell}} & \multicolumn{1}{c}{\textbf{Fourier}} & \multicolumn{1}{c}{\textbf{Wavelet}} \\ 
    \midrule
-   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{4543} & 2565 & 2641 & 2436 & 2629 \\
-   & 0,25 & & 1131 & 1181 & 1196 & 1052 \\
-   & 0,10 & & 427 & 427 & 310 & 575 \\
+   \multirow{3}{*}{Wetterdaten} & 0,50 & \multirow{3}{*}{4543} & 2565 & 2641 & 2629 & 2436 \\
+   & 0,25 & & 1131 & 1181 & 1052 & 1196 \\
+   & 0,10 & & 427 & 427 & 575 & 310 \\
    \midrule
-   \multirow{3}{*}{NVIDIA-Aktie} & 0,50 & \multirow{3}{*}{1103} & 445 & 540 & 554 & 518 \\
-   & 0,25 & & 267 & 273 & 287 & 247 \\
-   & 0,10 & & 88 & 91 & 86 & 138 \\
+   \multirow{3}{*}{NVIDIA-Aktie} & 0,50 & \multirow{3}{*}{1103} & 445 & 540 & 518 & 554 \\
+   & 0,25 & & 267 & 273 & 247 & 287 \\
+   & 0,10 & & 88 & 91 & 138 & 86 \\
    \midrule
-   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{1702} & 818 & 877 & 651 & 848 \\
-   & 0,25 & & 405 & 440 & 362 & 480 \\
-   & 0,10 & & 163 & 176 & 178 & 169 \\
+   \multirow{3}{*}{ECG5000} & 0,50 & \multirow{3}{*}{1702} & 818 & 877 & 848 & 651 \\
+   & 0,25 & & 405 & 440 & 480 & 362 \\
+   & 0,10 & & 163 & 176 & 169 & 178 \\
    \bottomrule
   \end{tabular}
 \caption{Durchschnittliche Dateigröße in Bytes}
 \label{tbl:kompressionsratenBytes}
  \end{table}
 
-Bei den Ausreißererkennungsverfahren wurden keine eigenen Parameter gesetzt, sondern die Standardwerte der jeweiligen Funktionen übernommen. Das hat vor allem zwei Gründe, einerseits sind die gesetzten Parameter etablierte Standardwerte, die auch in \autoref{ch:theoretischegrundlagen} bei den jeweiligen Verfahren genannt werden, andererseits liegt der Fokus der Arbeit darauf, wie gut die Analyseverfahren die vermeintlichen Ausreißer in den originalen Daten, auch in den komprimierten Daten finden. Ob diese Daten tatsächlich Ausreißer sind, ist dafür nicht relevant. Bei dem Verfahren für Ähnlichkeitssuche muss hingegen angegeben werden wie viele nächste Nachbarn man zurückgeben möchte. In unserem Fall haben wir diesen auf 100 gesetzt, denn ein zu kleiner Wert wäre zu anfällig für Rauschen, also dass ein paar wenige Werte in den komprimierten Daten nicht mehr als Ausreißer erkannt werden, und ein zu großer Wert verliert an Sinnhaftigkeit, da sich dann die Daten zu stark unterscheiden und nicht mehr "`ähnlich"' sind.
+Bei den Ausreißererkennungsverfahren wurden keine eigenen Parameter gesetzt, sondern die Standardwerte der jeweiligen Funktionen übernommen. Das hat vor allem zwei Gründe, einerseits sind die gesetzten Parameter etablierte Standardwerte, die auch in \autoref{ch:theoretischegrundlagen} bei den jeweiligen Verfahren genannt werden, andererseits liegt der Fokus der Arbeit darauf, wie gut die Analyseverfahren die vermeintlichen Ausreißer in den originalen Daten, auch in den komprimierten Daten finden. Ob diese Daten tatsächlich Ausreißer sind, ist dafür nicht relevant. Bei dem Verfahren für Ähnlichkeitssuche muss hingegen angegeben werden wie viele nächste Nachbarn man zurückgeben möchte. In unserem Fall haben wir diesen auf 100 gesetzt, denn ein zu kleiner Wert wäre zu anfällig für Rauschen, also dass ein paar wenige Werte in den komprimierten Daten nicht mehr als Nachbarn erkannt werden, und ein zu großer Wert verliert an Sinnhaftigkeit, da sich dann die Daten zu stark unterscheiden und nicht mehr "`ähnlich"' sind.

@@ -62,10 +62,10 @@ if __name__ == "__main__":
     writeFiles(full_paths, "linearApprox", linTS)
     polTS = comp.polynomialApproximation(checkedTimeSeries, int(sys.argv[3]))
     writeFiles(full_paths, "polyApprox", polTS)
-    dwtTS = comp.dwtApproximation(checkedTimeSeries, int(sys.argv[4]))
-    writeFiles(full_paths, "waveletApprox", dwtTS)
-    dftTS = comp.dftApproximation(checkedTimeSeries, float(sys.argv[5]) if len(sys.argv) == 6 else 10)
+    dftTS = comp.dftApproximation(checkedTimeSeries, float(sys.argv[4]))
     writeFiles(full_paths, "fourierApprox", dftTS)
+    dwtTS = comp.dwtApproximation(checkedTimeSeries, int(sys.argv[5]))
+    writeFiles(full_paths, "waveletApprox", dwtTS)
     results = ""
 
     # Anomalieerkennung und Erstellung / Speicherung von Ergebnisdatei
