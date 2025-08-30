@@ -3,6 +3,10 @@
 %*******************************************************
 \pdfbookmark[0]{Zusammenfassung}{Zusammenfassung}
 \chapter*{Zusammenfassung}
-Kurze Zusammenfassung des Inhaltes in deutscher Sprache, der Umfang beträgt zwischen einer halben und einer ganzen DIN A4-Seite.
+In dieser Bachelor-Arbeit im Bereich Informatik geht es um Zeitreihen, mehrere Arten ihrer Kompression und verschiedene Analyseverfahren. Die Hauptaufgabenstellung ist es,
+gegenüberzustellen und zu diskutieren, wie gut sich die Analyseverfahren auf die komprimierten Daten anwenden lassen, im Vergleich zu den Resultaten dieser Verfahren auf den
+Originaldaten.
 
-Orientieren Sie sich bei der Aufteilung bzw. dem Inhalt Ihrer Zusammenfassung an Kent Becks Artikel: \url{http://plg.uwaterloo.ca/~migod/research/beckOOPSLA.html}.
+Als Zeitreihen werden drei verschiedene Datensätze herangezogen, die verschiedene Charakteristika besitzen. Darunter verschiedene Wetterdaten, ein Aktienkurs und ein EKG"=Signal. Als Kompressionsverfahren werden zwei Approximationen, linear und polynomiell mit höherem Grad, sowie zwei Frequenzmethoden, Fourier"= und Wavelet"=Transformation, angewendet. Als Analyseverfahren werden eine Ähnlichkeitssuche mittels der Euklidischen"=Distanz und drei Methoden zur Ausreißererkennung, nämlich k"=Nearest"=Neighbors, iForest und Random Projection, untersucht. Die Zeitreihen sind öffentlich zugängliche Daten, während für die Kompressions"= und Analyseverfahren gängige Python Bibliotheken wie Numpy, PyOD oder PyWavelets genutzt werden.
+
+Die Datensätze werden mit drei verschiedenen Kompressionsraten unter Anwendung aller vier Kompressionsverfahren komprimiert, und anschließend werden auf allen resultierenden Datensätzen die vier Analyseverfahren angewendet. Damit man vor allem die Kompression vernünftig im Programmcode umsetzen kann, ist ein grundlegendes theoretisches Verständnis nötig, so dass die Hintergründe und die mathematischen Formeln der Verfahren erläutert werden müssen. Gerade die Fourier- und Wavelet-Transformation benötigen für das weiterführende Verständnis mehr Mathematik, als es der Rahmen hier zulässt, so dass auf speziellere Literatur verwiesen wird.

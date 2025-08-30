@@ -1,4 +1,24 @@
 \section{Kompression von Zeitreihen}
+\newcommand{\tikztextl}[3]{\node at (#1, #2) {\rlap{\vphantom{/}\smash{#3}}};}
+\newcommand{\tikztextr}[3]{\node at (#1, #2) {\llap{\vphantom{/}\smash{#3}}};}
+\newcommand{\waveletfunction}[1]{%
+ \begin{tikzpicture}[x = 20mm, y = 20mm]
+  %\draw (-0.45, -1.5) rectangle (1.2, 1.7);
+  \useasboundingbox (-0.45, -1.5) rectangle (1.2, 1.7);
+  \draw [->] (-0.1, 0) -- (1.2, 0);
+  \draw [->] (0, -1.5) -- (0, 1.7);
+  \tikztextr{1.2}{0.15}{$x$}
+  \tikztextl{0.075}{1.65}{$y$}
+  \tikztextc{0}{-0.15}{$0$}
+  \tikztextc{0.5}{-0.15}{$0{,}5$}
+  \tikztextc{1}{-0.15}{$1$}
+  \tikztextr{-0.075}{-1.414}{$-\sqrt2$}
+  \tikztextr{-0.075}{-1}{$-1$}
+  \tikztextr{-0.075}{1}{$1$}
+  \tikztextr{-0.075}{1.414}{$\sqrt2$}
+  \draw [blue, thick] (-0.05, 0) -| #1 -- (1.05, 0);
+ \end{tikzpicture}%
+}
 Übersetzt aus dem Englischen, beschreibt D. Salomon den Begriff Datenkompression \cite[p. 1-2]{dataCompressionSalmon} folgendermaßen: "`\textit{Datenkompression ist der Prozess der Konvertierung eines Eingangsdatenstroms [\ldots] hin zu einem anderen Datenstrom [\ldots], der eine kleinere Größe hat. Ein Strom ist entweder eine Datei oder ein Puffer im Speicher.}"'
 
 Laut ihm gibt es zwei Hauptgründe, warum man Daten komprimiert. Erstens ist der physische Speicher begrenzt, das heißt man möchte das Volllaufen mittels Aussortieren und Kompression so weit hinauszögern wie nur möglich, wobei das Aussortieren aufwendiger sein kann als das Komprimieren. Zweitens ist der Mensch ungeduldig, das heißt man möchte viele Daten schnell übertragen können und nicht mehrere Sekunden warten, bis die Daten z.~B. angezeigt werden. In unserem Fall spielt der erste Grund wohl die wichtigere Rolle, da es darum geht, Zeitreihen effizient speichern zu können und sie dann zu analysieren, statt sie zu verschieben oder zu versenden.
@@ -20,7 +40,7 @@ Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:Rekonstru
 \begin{figure}[bth] 
   \centering
   \includegraphics[width=0.7\textwidth]{Graphics/RekonstruktionPoly.pdf}
-  \caption{Rekonstruktion einer stückweise polynomiell komprimierten Zeitreihe}
+  \caption{Rekonstruktion einer mit Grad 3 stückweise polynomiell komprimierten Zeitreihe}
   \label{fig:RekonstruktionPoly}
 \end{figure}
 
@@ -58,7 +78,7 @@ In \autoref{fig:dftEinzelneFrequenzen} sieht man nun die drei ursprünglichen Fr
   \label{fig:dftEinzelneFrequenzen}
 \end{figure}
 
-Zum besseren Verständnis der am Anfang genannten Formel wird in diesem Abschnitt nun näher auf die Mathematik dahinter eingegangen. In der Formel handelt es sich wegen der imaginären Einheit $i$ um komplexe Zahlen. Diese bestehen aus einem Realteil $a$ und einem Imaginärteil $b$, also in der Form $a + ib$. Sie können allerdings auch als Punkt in einer zweidimensionalen Ebene interpretiert werden, dann liegt der Realteil typischerweise auf der x-Achse und der Imaginärteil auf der y-Achse. Außerdem gibt es die Exponentialform $a+ib=re^{i\varphi}$, wobei $r$ der Abstand vom Ursprung zum Punkt $(a,b)$ ist und $\varphi$ der Winkel, den diese Strecke mit der positiven x-Achse einschließt. $r$ wird auch Betrag genannt und wird folgendermaßen berechnet: $r=\sqrt{a^2+b^2}$. Setzt man nun $r=1$ und lässt $\varphi$ von 0 bis $2\pi$ laufen, erhält man einen Einheitskreis. Unterteilt man diesen Kreis jetzt in $n$ gleich große Abschnitte, so kann man mit $e^{i\frac{2\pi k}{n}}$ über $n$ diskrete Punkte iterieren, wobei $k$ eine natürliche Zahl von 0 bis $n-1$ ist. Auffallen dürfte an dieser Stelle, dass dieser Term dem aus der obigen Summenformel entspricht. Setzt man also nun $n=12$, entsprechend unseres Beispiels in \autoref{fig:dftKomplettBeispiel}, so erhält man einen Einheitskreis, der mit dem in \autoref{fig:komplexerEinheitskreis} übereinstimmt. Diese 12 Punkte werden dann mit den restlichen Termen der \acs{DFT}, nämlich den Datenpunkten gewichtet.
+Zum besseren Verständnis der am Anfang genannten Formel wird in diesem Abschnitt nun näher auf die Mathematik dahinter eingegangen. In der Formel handelt es sich wegen der imaginären Einheit $i$ um komplexe Zahlen. Diese bestehen aus einem Realteil $a$ und einem Imaginärteil $b$, also in der Form $a + ib$. Sie können allerdings auch als Punkt in einer zweidimensionalen Ebene interpretiert werden, dann liegt der Realteil typischerweise auf der x-Achse und der Imaginärteil auf der y-Achse. Außerdem gibt es die Exponentialform $a+ib=re^{i\varphi}$, wobei $r$ der Abstand vom Ursprung zum Punkt $(a,b)$ ist und $\varphi$ der Winkel, den diese Strecke mit der positiven x-Achse einschließt. $r$ wird auch Betrag genannt und wird folgendermaßen berechnet: $r=\sqrt{a^2+b^2}$. Setzt man nun $r=1$ und lässt $\varphi$ von 0 bis $2\pi$ laufen, erhält man einen Einheitskreis. Unterteilt man diesen Kreis jetzt in $n$ gleich große Abschnitte, so kann man mit $e^{i\frac{2\pi k}{n}}$ über $n$ diskrete Punkte iterieren, wobei $k$ eine natürliche Zahl von 0 bis $n-1$ ist. Auffallen dürfte an dieser Stelle, dass dieser Term dem aus der obigen Summenformel entspricht. Setzt man also nun $n=12$, entsprechend unseres Beispiels in \autoref{fig:dftKomplettBeispiel}, so erhält man einen Einheitskreis, der mit dem in \autoref{fig:komplexerEinheitskreis} übereinstimmt. Diese 12 Punkte werden dann mit den restlichen Termen der \acs{DFT}, nämlich den Datenpunkten gewichtet. Diese Darstellung als komplexe $e$"=Funktion entspringt der Idee eine Funktion als Linearkombination von Cosinus"= und Sinus"=Termen anzunähern. Das legt also folgenden Ansatz nah: \[f(x)\sim\frac{a_0}{2}+\sum_{\ell=1}^{\infty}\Bigl(a_\ell\cos(\ell x)+b_\ell\sin(\ell x)\Bigr).\] Da $\cos x = (e^{ix}+e^{-ix})/2 \text{ und } \sin x = (e^{ix}-e^{-ix})/2i$, lässt sich dieser Ansatz dann in die komplexe Fourier"=Reihe überführen, die allgemein als \[f(x) \sim \sum_{\ell = -\infty}^\infty c_\ell e^{i\ell x}\] geschrieben werden kann und diskretisiert die Formel der \acs{DFT} ergibt, die deutlich kompakter und einfacher zu berechnen ist als mit den trigonometrischen Funktionen. Auf die Herleitung zwischen dem ersten Ansatz und der \acs{DFT} möchten wir an dieser Stelle nicht eingehen und verweisen hierfür auf das Lehrmaterial von Stefan Krause \cite{fourierundwavelet}.
 
 Für die Abschätzung der Laufzeit ergibt sich, dass für jedes Element der Zeitreihe, also $n$"=mal, die Summenformel von 0 bis $n-1$ berechnet werden muss, und somit die Laufzeit in $O(n^2)$ liegt, was zu langsam für große Zeitreihen ist. Die Fast Fourier"=Transformation löst dieses Problem, indem es einen Algorithmus implementiert, der die Werte der \acs{DFT} effizienter berechnet. Die Laufzeit liegt dann nur noch in $O(n\log n)$, übertragen auf Sortieralgorithmen wäre das ein Wechsel von Bubblesort zu MergeSort. Auf die Implementierung der Fast Fourier"=Transformation wird in dieser Arbeit nicht weiter eingegangen, da es lediglich eine Optimierung der \acs{DFT} ist und diese nicht relevant zum Verständnis des Inhalts ist.
 \begin{figure}[bth] 
@@ -77,7 +97,20 @@ Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:Rekonstru
 \end{figure}
 
 \subsection{Diskrete Wavelet"=Transformation}
-\blindtext
+Im vorherigen Abschnitt haben wir gesehen, dass die \acs{DFT} ein Signal, beziehungsweise in unserem Fall eine Zeitreihe, als Linearkombination von Cosinus"= und Sinus"=Funktionen mit verschiedenen Vielfachen der Grundfrequenz beschreibt. Diese sogenannten Basisfunktionen besitzen eine sogenannte Frequenzlokalität, das bedeutet an den Koeffizienten $a_\ell$ und $b_\ell$ beziehungsweise $c_\ell$ kann man ablesen wie stark ein Vielfaches der Grundfrequenz vorhanden ist. Allerdings gilt diese Information global für das gesamte Signal, was bedeutet es gibt keine sogenannte zeitliche Lokalität, die Informationen darüber enthält, wo diese Schwingungen auftreten.
+
+Dieses Problem versucht die Wavelet"=Transformation zu beheben, indem es ein Signal in lokalisierte Basisfunktionen zerlegt (Wavelets), die sowohl verschiedene Frequenzen, als auch verschiedene Lokalitäten abbilden können. Von diesen Basisfunktionen gibt es verschiedene Typen, so nutzen wir in der Implementierung Daubechies"=Wavelets, weil sie die mit am meisten genutzten sind und auch in den Beispielen der verwendeten Bibliothek vorkommen. Um allerdings das Prinzip zu veranschaulichen, nutzen wir die Haar"=Wavelets, da sie einfacher zu verstehen und zu veranschaulichen sind.
+
+\bigskip
+   
+\noindent%
+\waveletfunction{(0, 1) -| (1, 0)}%
+\hfill%
+\waveletfunction{(0, 1) -| (0.5, -1) -| (1, 0)}%
+\hfill%
+\waveletfunction{(0, 1.414) -| (0.25, -1.414) -| (0.5, 0)}%
+\hfill%
+\waveletfunction{(0.5, 1.414) -| (0.75, -1.414) -| (1, 0)}%
 
 Um ein Verständnis für die Verluste zu bekommen, ist in \autoref{fig:RekonstruktionWavelet} ein Beispiel einer rekonstruierten Zeitreihe zu finden, die mit vier Iterationen der diskreten Wavelet"=Transformation komprimiert wurde.
 \begin{figure}[bth] 
