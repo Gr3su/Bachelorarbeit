@@ -1,6 +1,7 @@
 \section{Kompression und Analyse}
 Zur Kompression und Analyse sind gewisse Parameter einzustellen: einerseits um unterschiedliche Kompressionsraten zu erzielen, andererseits um einen bestimmten Prozentsatz an Ausreißern zu erkennen oder um einen Schwellwert für die Ausreißererkennung festzulegen.
 
+\renewcommand{\tabledata}[4]{\phantom{000}\llap{#1} & \phantom{000}\llap{#2} & \phantom{000}\llap{#3} & \phantom{000}\llap{#4}\\}
 \begin{table}[b]
  \centering
  \begin{tabular}{lc|cccc}
@@ -28,6 +29,7 @@ Der im Folgenden verwendete Begriff der Kompressionsrate $\rho$ ist in \cite[Ch.
 
 Die tatsächliche Kompressionsrate einer Zeitreihe wurde anhand der Text"=Dateigröße in Bytes ermittelt. Vorteilhaft an dieser Herangehensweise ist, dass man den tatsächlichen Speicherverbrauch betrachtet, der in der Praxis der relevante Wert beim Komprimieren ist. Nachteilhaft ist allerdings, dass man nur begrenzt Rückschlüsse auf den Informationsgehalt der komprimierten Zeitreihe. Damit ist gemeint, dass zwei Zeitreihen zwar gleich viele Werte haben können, sich ihr Platzbedarf jedoch unterscheidet: besitzen die Werte der einen Zeitreihe nur eine Nachkommastelle, so benötigt sie weniger Platz als eine Zeitreihe, deren Werte mit mindestens zehn Nachkommastellen gespeichert werden. 
 
+\renewcommand{\tabledata}[4]{\phantom{000}\llap{#1} & \phantom{000}\llap{#2} & \phantom{000}\llap{#3} & \phantom{000}\llap{#4}\\}
 \begin{table}[t]
  \centering
  \begin{tabular}{lc|ccccc}
@@ -50,6 +52,8 @@ Die tatsächliche Kompressionsrate einer Zeitreihe wurde anhand der Text"=Dateig
  \caption{Anzahl der durchschnittlichen Double"=Werte}
  \label{tbl:kompressionsratenDoubleWerte}
 \end{table}
+
+\renewcommand{\tabledata}[4]{\phantom{0000}\llap{#1} & \phantom{0000}\llap{#2} & \phantom{0000}\llap{#3} & \phantom{0000}\llap{#4}\\}
 \begin{table}[t]
  \centering
  \begin{tabular}{lc|ccccc}
